@@ -52,8 +52,8 @@ export default function RememberPassword() {
   const user = User;
 
   React.useEffect(() => {
-    if (user.isLogedIn) navigate("/personal");
-  }, [navigate, user.isLogedIn]);
+    if (user.isLogedIn()) navigate("/personal");
+  }, [navigate, user]);
 
   const validateInputs = () => {
     const phone = document.getElementById("phone") as HTMLInputElement;

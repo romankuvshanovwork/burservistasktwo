@@ -2,8 +2,8 @@ import { IUser } from "../interfaces/IUser";
 
 // TODO: Переписать покрасивее и предусмотреть крайние случаи. Возращать объект: {success, result, errorMessage}
 export const User: {
-  isLogedIn: boolean;
-  currentUser: IUser | undefined;
+  isLogedIn: () =>  boolean;
+  currentUser: () => IUser;
   amountOfRegisteredUsers: number;
   login: (phone: string, password: string) => boolean | string;
   register: (
@@ -15,8 +15,8 @@ export const User: {
   rememberPassword: (phone: string) => string;
   logout: () => void;
 } = {
-  isLogedIn: !!localStorage.getItem("currentUser"),
-  currentUser: !!localStorage.getItem("currentUser")
+  isLogedIn: () => !!localStorage.getItem("currentUser"),
+  currentUser: () => !!localStorage.getItem("currentUser")
     ? JSON.parse(localStorage.getItem("currentUser") || "{}")
     : [],
   amountOfRegisteredUsers: !!localStorage.getItem("users")
@@ -55,6 +55,7 @@ export const User: {
         { phone: phone, password: password, fio: fio, gender: gender },
       ])
     );
+    this.login(phone, password);
   },
   rememberPassword: function (phone: string) {
     const users = !!localStorage.getItem("users")

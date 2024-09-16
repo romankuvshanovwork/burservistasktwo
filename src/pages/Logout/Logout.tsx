@@ -1,6 +1,7 @@
 import * as React from "react";
 import { User } from "../../api/User";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function Logout() {
   //   TODO: Сделать через конструктор и new
@@ -8,7 +9,12 @@ export default function Logout() {
   const navigate = useNavigate();
 
   user.logout();
-  navigate("/sigin");
+  
+  useEffect(() => {
+    if (!user.isLogedIn()) {
+      navigate("/sigin");
+    }
+  }, [navigate, user]);
 
   return <></>;
 }

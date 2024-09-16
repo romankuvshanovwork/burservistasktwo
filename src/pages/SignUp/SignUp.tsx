@@ -58,8 +58,8 @@ export default function SignUp() {
   const user = User;
 
   React.useEffect(() => {
-    if (user.isLogedIn) navigate("/personal");
-  }, [navigate, user.isLogedIn]);
+    if (user.isLogedIn()) navigate("/personal");
+  }, [navigate, user]);
 
   const validateInputs = () => {
     const password = document.getElementById("password") as HTMLInputElement;
@@ -117,6 +117,7 @@ export default function SignUp() {
       gender: gender,
     });
     user.register(phone, password, fio, gender);
+    navigate('/personal');
   };
 
   return (

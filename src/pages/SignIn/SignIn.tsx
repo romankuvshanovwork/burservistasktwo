@@ -10,7 +10,7 @@ import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { User } from "../../api/User";
-import { Questionnaire } from "../../api/Questionnaire";
+import { QuestionnaireAPI } from "../../api/QuestionnaireAPI";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -66,11 +66,11 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const navigate = useNavigate();
 
   const user = User;
-  const questionnaire = Questionnaire;
+  const questionnaire = QuestionnaireAPI;
 
   React.useEffect(() => {
-    if (user.isLogedIn) navigate("/personal");
-  }, [navigate, user.isLogedIn]);
+    if (user.isLogedIn()) navigate("/personal");
+  }, [navigate, user]);
 
   React.useEffect(
     () => setAmountOfRegisteredUsers(user.amountOfRegisteredUsers),
@@ -95,7 +95,8 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
       phone: phone,
     });
 
-    user.login(phone, password);
+    const result = user.login(phone, password);
+    if (result) navigate('/personal');
   };
 
   const validateInputs = () => {

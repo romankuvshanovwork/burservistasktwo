@@ -12,8 +12,8 @@ export default function Personal() {
   const user = User;
 
   React.useEffect(() => {
-    if (!user.isLogedIn) navigate("/signin");
-  }, [navigate, user.isLogedIn]);
+    if (!user.isLogedIn()) navigate("/signin");
+  }, [navigate, user]);
 
   return (
     <Container
@@ -25,11 +25,11 @@ export default function Personal() {
         my: 16,
         gap: 4,
         marginTop: "35px",
-        backgroundColor: '#fcfcfc',
+        backgroundColor: "#fcfcfc",
       }}
     >
       <Typography variant="h3" gutterBottom>
-        Привет: {user.currentUser?.fio}
+        Привет, {user.currentUser()?.fio}
       </Typography>
       <Blog />
       <Questionnaire />
