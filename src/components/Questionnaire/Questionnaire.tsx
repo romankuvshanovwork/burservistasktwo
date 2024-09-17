@@ -21,16 +21,10 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { List } from "../List/List";
 import { User } from "../../api/User";
 import { QuestionnaireAPI } from "../../api/QuestionnaireAPI";
-
-const toBase64 = (file?: Blob) =>
-  new Promise((resolve, reject) => {
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-    }
-  });
+import { ACTORS } from "../../constants/actors";
+import { COLORS } from "../../constants/colors";
+import { TYPES_OF_SPORT } from "../../constants/typesOfSport";
+import { FREE_TIME_ACTIVITIES } from "../../constants/freeTimeActivities";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -44,125 +38,6 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const actors = [
-  {
-    value: "Jackie Chan",
-    label: "Джеки Чан",
-  },
-  {
-    value: "Dwayne Johnson",
-    label: "Дуэйн Джонсон",
-  },
-  {
-    value: "Bruce Lee",
-    label: "Брюс Ли",
-  },
-  {
-    value: "Arnold Schwarzenegger",
-    label: "Арнольд Шварценеггер",
-  },
-];
-
-const colors = [
-  {
-    value: "red",
-    label: "Красный",
-  },
-  {
-    value: "orange",
-    label: "Оранжевый",
-  },
-  {
-    value: "yellow",
-    label: "Желтый",
-  },
-  {
-    value: "green",
-    label: "Зеленый",
-  },
-  {
-    value: "blue",
-    label: "Голубой",
-  },
-  {
-    value: "darkBlue",
-    label: "Синий",
-  },
-  {
-    value: "purple",
-    label: "Фиолетовый",
-  },
-];
-
-const actresses = [
-  {
-    value: "Margot Robbie",
-    label: "Марго Робби",
-  },
-  {
-    value: "Emma Watson",
-    label: "Эмма Уотсон",
-  },
-  {
-    value: "Anne Hathaway",
-    label: "Энн Хэтэуэй",
-  },
-  {
-    value: "Jennifer Lawrence",
-    label: "Дженнифер Лоуренс",
-  },
-];
-
-const sports = [
-  {
-    value: "Football",
-    label: "Футбол",
-  },
-  {
-    value: "Basketball",
-    label: "Баскетбол",
-  },
-  {
-    value: "Swimming",
-    label: "Плавание",
-  },
-  {
-    value: "Golf",
-    label: "Гольф",
-  },
-  {
-    value: "Volleyball ",
-    label: "Волейбол ",
-  },
-];
-
-const ITEMS = [
-  {
-    id: 1,
-    text: "Играть в компьютерные игры",
-  },
-  {
-    id: 2,
-    text: "Читать книги",
-  },
-  {
-    id: 3,
-    text: "Заниматься спортом",
-  },
-  {
-    id: 4,
-    text: "Смотреть фильмы",
-  },
-  {
-    id: 5,
-    text: "Играть с друзьями",
-  },
-  {
-    id: 6,
-    text: "Рисовать",
-  },
-];
-
 export default function Questionnaire() {
   const {
     control,
@@ -173,9 +48,9 @@ export default function Questionnaire() {
   } = useForm();
 
   const [sportsState, setSportsState] = React.useState(
-    sports.map((sport) => ({ ...sport, state: false }))
+    TYPES_OF_SPORT.map((sport) => ({ ...sport, state: false }))
   );
-  const [cards, setCards] = React.useState(ITEMS);
+  const [cards, setCards] = React.useState(FREE_TIME_ACTIVITIES);
   const [fileName, setFileName] = React.useState("");
   const [formSent, setFormSent] = React.useState(false);
 
@@ -192,10 +67,10 @@ export default function Questionnaire() {
     );
   };
 
-//   React.useEffect(() => {
-//     const isTouched = getFieldState('favoriteSport').isTouched;
-//     if (isTouched) trigger("favoriteSport");
-//   }, [trigger, sportsState, getFieldState]);
+  //   React.useEffect(() => {
+  //     const isTouched = getFieldState('favoriteSport').isTouched;
+  //     if (isTouched) trigger("favoriteSport");
+  //   }, [trigger, sportsState, getFieldState]);
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -280,7 +155,7 @@ export default function Questionnaire() {
                     : "Пожалуйста, выберите вашего любимого актера"
                 }
               >
-                {actors.map((actor) => (
+                {ACTORS.map((actor) => (
                   <MenuItem key={actor.value} value={actor.value}>
                     {actor.label}
                   </MenuItem>
@@ -308,7 +183,7 @@ export default function Questionnaire() {
                   aria-labelledby="favorite-color-radio-buttons-group-label"
                   name="radio-buttons-group"
                 >
-                  {colors.map((color) => (
+                  {COLORS.map((color) => (
                     <FormControlLabel
                       value={color.value}
                       key={color.value}
