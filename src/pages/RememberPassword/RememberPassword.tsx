@@ -92,6 +92,7 @@ export default function RememberPassword() {
 
   return (
     <>
+      {/* TODO: Переделать на react-hook-form */}
       <SignUpContainer direction="column" justifyContent="space-between">
         <Stack
           sx={{

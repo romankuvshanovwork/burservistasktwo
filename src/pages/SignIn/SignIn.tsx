@@ -96,7 +96,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     });
 
     const result = user.login(phone, password);
-    if (result) navigate('/personal');
+    if (result) navigate("/personal");
   };
 
   const validateInputs = () => {
@@ -130,6 +130,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
   return (
     <>
+      {/* TODO: Переделать на react-hook-form */}
       <SignInContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
           <Typography

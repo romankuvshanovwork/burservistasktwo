@@ -6,8 +6,10 @@ import Button from "@mui/material/Button/Button";
 import {
   Box,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
+  FormHelperText,
   FormLabel,
   MenuItem,
   Radio,
@@ -165,6 +167,8 @@ export default function Questionnaire() {
   const {
     control,
     handleSubmit,
+    trigger,
+    getFieldState,
     formState: { errors },
   } = useForm();
 
@@ -188,7 +192,14 @@ export default function Questionnaire() {
     );
   };
 
+//   React.useEffect(() => {
+//     const isTouched = getFieldState('favoriteSport').isTouched;
+//     if (isTouched) trigger("favoriteSport");
+//   }, [trigger, sportsState, getFieldState]);
+
   const onSubmit = (data: any) => {
+    console.log(data);
+    console.log(data?.sign?.files?.[0]);
     console.log({
       ...data,
       favoriteSport: sportsState,
@@ -264,7 +275,9 @@ export default function Questionnaire() {
                 margin="normal"
                 error={!!errors.favoriteActor}
                 helperText={
-                  errors.favoriteActor ? (errors.favoriteActor.message as string) : "Пожалуйста, выберите вашего любимого актера"
+                  errors.favoriteActor
+                    ? (errors.favoriteActor.message as string)
+                    : "Пожалуйста, выберите вашего любимого актера"
                 }
               >
                 {actors.map((actor) => (
@@ -281,13 +294,18 @@ export default function Questionnaire() {
             defaultValue={"red"}
             rules={{ required: "Выбор любимого цвета обязателен" }}
             render={({ field }) => (
-              <Box sx={{ marginTop: "8px", marginBottom: "8px" }}>
-                <FormLabel id="demo-radio-buttons-group-label">
-                  Любимый цвет
+              <FormControl
+                sx={{ marginBottom: "8px" }}
+                margin="dense"
+                fullWidth
+                error={!!errors.favoriteColor}
+              >
+                <FormLabel id="favorite-color-radio-buttons-group-label">
+                  Любимый цвет*
                 </FormLabel>
                 <RadioGroup
                   {...field}
-                  aria-labelledby="demo-radio-buttons-group-label"
+                  aria-labelledby="favorite-color-radio-buttons-group-label"
                   name="radio-buttons-group"
                 >
                   {colors.map((color) => (
@@ -299,16 +317,32 @@ export default function Questionnaire() {
                     />
                   ))}
                 </RadioGroup>
-              </Box>
+                {errors.favoriteColor && (
+                  <FormHelperText error>
+                    {typeof errors.favoriteColor.message === "string"
+                      ? errors.favoriteColor.message
+                      : "Invalid selection"}
+                  </FormHelperText>
+                )}
+              </FormControl>
             )}
           />
           <Controller
             name="favoriteSport"
             control={control}
+            rules={{
+              validate: () =>
+                sportsState.some((sport) => sport.state) ||
+                "Выберите хотя бы один вид спорта",
+            }}
             render={({ field }) => (
-              <Box sx={{ marginTop: "16px", marginBottom: "8px" }}>
+              <FormControl
+                margin="dense"
+                fullWidth
+                error={!!errors.favoriteSport}
+              >
                 <FormLabel component="legend">
-                  Любимый/любимые виды спорта
+                  Любимый/любимые виды спорта*
                 </FormLabel>
                 <FormGroup>
                   {sportsState.map((sport) => (
@@ -325,7 +359,14 @@ export default function Questionnaire() {
                     />
                   ))}
                 </FormGroup>
-              </Box>
+                {errors.favoriteSport && (
+                  <FormHelperText error>
+                    {typeof errors.favoriteSport.message === "string"
+                      ? errors.favoriteSport.message
+                      : "Invalid selection"}
+                  </FormHelperText>
+                )}
+              </FormControl>
             )}
           />
           <Controller
@@ -337,7 +378,7 @@ export default function Questionnaire() {
                   display: "flex",
                   flexDirection: "column",
                   rowGap: "8px",
-                  marginTop: "16px",
+                  marginTop: "8px",
                   marginBottom: "8px",
                 }}
               >
@@ -352,38 +393,65 @@ export default function Questionnaire() {
           <Controller
             name="sign"
             control={control}
+            defaultValue={""}
+            rules={{ required: "Загрузка подписи обязательна" }}
             render={({ field }) => (
-              <Button
-                component="label"
+              <FormControl
                 sx={{ marginTop: "8px", marginBottom: "8px" }}
-                role={undefined}
-                variant="contained"
                 fullWidth
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
+                error={!!errors.sign}
               >
-                Загрузите вашу подпись
-                <VisuallyHiddenInput
-                  {...field}
-                  required
-                  type="file"
-                  accept="image/*"
-                  onChange={async (event) => {
-                    setFileName(event.target.files?.[0]?.name || "");
-                  }}
-                />
-              </Button>
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  {fileName ? fileName : "Загрузите вашу подпись*"}
+                  <VisuallyHiddenInput
+                    {...field}
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => {
+                      setFileName(event.target.files?.[0]?.name || "");
+                      field.onChange(event.target.value);
+                    }}
+                  />
+                </Button>
+                {errors.sign && (
+                  <FormHelperText error>
+                    {typeof errors.sign.message === "string"
+                      ? errors.sign.message
+                      : "Invalid selection"}
+                  </FormHelperText>
+                )}
+              </FormControl>
             )}
           />
           <Controller
             name="agreement"
             control={control}
+            rules={{ required: "Согласие обязательно" }}
             render={({ field }) => (
-              <FormControlLabel
+              <FormControl
                 sx={{ marginX: "auto", marginY: "8px" }}
-                control={<Switch required {...field} />}
-                label="Я согласен с обработкой моих персональных данных"
-              />
+                fullWidth
+                error={!!errors.agreement}
+              >
+                <FormControlLabel
+                  sx={{ marginX: "auto" }}
+                  control={<Switch {...field} />}
+                  label="Я согласен с обработкой моих персональных данных"
+                />
+                {errors.agreement && (
+                  <FormHelperText error>
+                    {typeof errors.agreement.message === "string"
+                      ? errors.agreement.message
+                      : "Invalid selection"}
+                  </FormHelperText>
+                )}
+              </FormControl>
             )}
           />
           <Button fullWidth type="submit" variant="contained" color="primary">

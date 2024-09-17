@@ -117,11 +117,12 @@ export default function SignUp() {
       gender: gender,
     });
     user.register(phone, password, fio, gender);
-    navigate('/personal');
+    navigate("/personal");
   };
 
   return (
     <>
+      {/* TODO: Переделать на react-hook-form */}
       <SignUpContainer direction="column" justifyContent="space-between">
         <Stack
           sx={{
