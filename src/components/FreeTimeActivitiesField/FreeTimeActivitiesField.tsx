@@ -7,17 +7,20 @@ import {
 import Box from "@mui/material/Box/Box";
 import FormLabel from "@mui/material/FormLabel/FormLabel";
 import { List } from "../List/List";
-import { FREE_TIME_ACTIVITIES } from "../../constants/freeTimeActivities";
 import { useEffect, useState } from "react";
 
 export function FreeTimeActivitiesField({
   control,
   setValue,
+  options,
+  label,
 }: {
   control: Control;
   setValue: UseFormSetValue<FieldValues>;
+  options: any;
+  label: string;
 }) {
-  const [cards, setCards] = useState(FREE_TIME_ACTIVITIES);
+  const [cards, setCards] = useState(options);
 
   useEffect(() => {
     setValue("freeTimeActivities", cards);
@@ -38,8 +41,7 @@ export function FreeTimeActivitiesField({
           }}
         >
           <FormLabel id="free-time-activities-group-label">
-            Распределите по порядку, что вам больше всего нравится делать в
-            свободное время:
+            {label}
           </FormLabel>
           <List cards={cards} onCardsChange={setCards} />
         </Box>

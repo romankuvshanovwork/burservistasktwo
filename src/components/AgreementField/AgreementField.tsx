@@ -7,9 +7,11 @@ import Switch from "@mui/material/Switch/Switch";
 export function AgreementField({
   control,
   errors,
+  label,
 }: {
   control: Control;
   errors: FieldErrors;
+  label: string,
 }) {
   return (
     <Controller
@@ -25,7 +27,7 @@ export function AgreementField({
           <FormControlLabel
             sx={{ marginX: "auto" }}
             control={<Switch {...field} />}
-            label="Я согласен с обработкой моих персональных данных"
+            label={label}
           />
           {errors.agreement && (
             <FormHelperText error>

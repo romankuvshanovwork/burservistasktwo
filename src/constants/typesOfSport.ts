@@ -16,7 +16,7 @@ export const TYPES_OF_SPORT = [
       label: "Гольф",
     },
     {
-      value: "Volleyball ",
-      label: "Волейбол ",
+      value: "Volleyball",
+      label: "Волейбол",
     },
   ];

@@ -12,24 +12,29 @@ import FormLabel from "@mui/material/FormLabel/FormLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import Checkbox from "@mui/material/Checkbox/Checkbox";
 import { useState } from "react";
-import { TYPES_OF_SPORT } from "../../constants/typesOfSport";
 
 export function FavoriteSportField({
   control,
   errors,
   setValue,
+  options,
+  label,
+  validateErrorMessage,
 }: {
   control: Control;
   errors: FieldErrors;
   setValue: UseFormSetValue<FieldValues>;
+  options: any;
+  label: string;
+  validateErrorMessage: string;
 }) {
   const [sportsState, setSportsState] = useState(
-    TYPES_OF_SPORT.map((sport) => ({ ...sport, state: false }))
+    options.map((sport: any) => ({ ...sport, state: false }))
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSportsState(
-      sportsState.map((sport) =>
+      sportsState.map((sport: any) =>
         sport.value === event.target.name
           ? { ...sport, state: event.target.checked }
           : sport
@@ -38,7 +43,7 @@ export function FavoriteSportField({
 
     setValue(
       "favoriteSport",
-      sportsState.map((sport) =>
+      sportsState.map((sport: any) =>
         sport.value === event.target.name
           ? { ...sport, state: event.target.checked }
           : sport
@@ -52,14 +57,14 @@ export function FavoriteSportField({
       control={control}
       rules={{
         validate: () =>
-          sportsState.some((sport) => sport.state) ||
-          "Выберите хотя бы один вид спорта",
+          sportsState.some((sport: any) => sport.state) ||
+          validateErrorMessage,
       }}
       render={({ field }) => (
         <FormControl margin="dense" fullWidth error={!!errors.favoriteSport}>
-          <FormLabel component="legend">Любимый/любимые виды спорта*</FormLabel>
+          <FormLabel component="legend">{label}</FormLabel>
           <FormGroup>
-            {sportsState.map((sport) => (
+            {sportsState.map((sport: any) => (
               <FormControlLabel
                 key={sport.value}
                 control={

@@ -1,37 +1,44 @@
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import TextField from "@mui/material/TextField/TextField";
 import { Control, FieldErrors, Controller } from "react-hook-form";
-import { ACTORS } from "../../constants/actors";
 
 export function FavoriteActorField({
   control,
   errors,
+  options,
+  label,
+  helperText,
+  errorRequiredText,
 }: {
   control: Control;
   errors: FieldErrors;
+  options: any;
+  label: string;
+  helperText: string;
+  errorRequiredText: string;
 }) {
   return (
     <Controller
       name="favoriteActor"
       control={control}
       defaultValue=""
-      rules={{ required: "Выбор любимого актера обязателен" }}
+      rules={{ required: errorRequiredText }}
       render={({ field }) => (
         <TextField
           {...field}
           id="outlined-select-favorite-actor"
           select
           fullWidth
-          label="Любимый актер*"
+          label={label}
           margin="normal"
           error={!!errors.favoriteActor}
           helperText={
             errors.favoriteActor
               ? (errors.favoriteActor.message as string)
-              : "Пожалуйста, выберите вашего любимого актера"
+              : helperText
           }
         >
-          {ACTORS.map((actor) => (
+          {options.map((actor: any) => (
             <MenuItem key={actor.value} value={actor.value}>
               {actor.label}
             </MenuItem>
