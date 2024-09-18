@@ -2,13 +2,15 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import TextField from "@mui/material/TextField/TextField";
 import { Control, FieldErrors, Controller } from "react-hook-form";
 
-export function FavoriteActorField({
+export function SelectField({
   control,
   errors,
   options,
   label,
   helperText,
   errorRequiredText,
+  name,
+  selectId,
 }: {
   control: Control;
   errors: FieldErrors;
@@ -16,31 +18,31 @@ export function FavoriteActorField({
   label: string;
   helperText: string;
   errorRequiredText: string;
+  name: string;
+  selectId: string;
 }) {
   return (
     <Controller
-      name="favoriteActor"
+      name={name}
       control={control}
       defaultValue=""
       rules={{ required: errorRequiredText }}
       render={({ field }) => (
         <TextField
           {...field}
-          id="outlined-select-favorite-actor"
+          id={selectId}
           select
           fullWidth
           label={label}
           margin="normal"
-          error={!!errors.favoriteActor}
+          error={!!errors?.[name]}
           helperText={
-            errors.favoriteActor
-              ? (errors.favoriteActor.message as string)
-              : helperText
+            errors?.[name] ? (errors?.[name]?.message as string) : helperText
           }
         >
-          {options.map((actor: any) => (
-            <MenuItem key={actor.value} value={actor.value}>
-              {actor.label}
+          {options.map((option: any) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
             </MenuItem>
           ))}
         </TextField>

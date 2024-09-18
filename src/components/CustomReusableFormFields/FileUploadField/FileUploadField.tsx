@@ -23,27 +23,35 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export function SignField({
+export function FileUploadField({
   control,
   errors,
+  validateErrorMessage,
+  label,
+  accept,
+  name,
   setValue,
 }: {
   control: Control;
   errors: FieldErrors;
+  validateErrorMessage: string;
+  label: string;
+  accept: string;
+  name: string;
   setValue: UseFormSetValue<FieldValues>;
 }) {
   const [fileName, setFileName] = useState("");
 
   return (
     <Controller
-      name="sign"
+      name={name}
       control={control}
-      rules={{ required: "Загрузка подписи обязательна" }}
+      rules={{ required: validateErrorMessage }}
       render={({ field }) => (
         <FormControl
           sx={{ marginTop: "8px", marginBottom: "8px" }}
           fullWidth
-          error={!!errors.sign}
+          error={!!errors?.[name]}
         >
           <Button
             component="label"
@@ -52,21 +60,19 @@ export function SignField({
             tabIndex={-1}
             startIcon={<CloudUploadIcon />}
           >
-            {fileName ? fileName : "Загрузите вашу подпись*"}
+            {fileName ? fileName : label}
             <VisuallyHiddenInput
               type="file"
-              accept="image/*"
+              accept={accept}
               onChange={(event) => {
                 setFileName(event.target.files?.[0]?.name || "");
-                setValue("sign", event.target.files?.[0]?.name || "");
+                setValue(name, event.target.files?.[0]?.name || "");
               }}
             />
           </Button>
-          {errors.sign && (
+          {errors?.[name] && (
             <FormHelperText error>
-              {typeof errors.sign.message === "string"
-                ? errors.sign.message
-                : "Invalid selection"}
+              {errors?.[name]?.message?.toString() || ""}
             </FormHelperText>
           )}
         </FormControl>

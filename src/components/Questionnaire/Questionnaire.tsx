@@ -1,25 +1,22 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography/Typography";
 import { useForm } from "react-hook-form";
-import Button from "@mui/material/Button/Button";
 import { Box } from "@mui/material";
 import { User } from "../../api/User";
 import { QuestionnaireAPI } from "../../api/QuestionnaireAPI";
-import { FirstNameField } from "../FirstNameField/FirstNameField";
-import { LastNameField } from "../LastNameField/LastNameField";
-import { FavoriteActorField } from "../FavotiteActorField/FavotiteActorField";
-import { FavoriteColorField } from "../FavoriteColorField/FavoriteColorField";
+import { FirstNameField } from "../FormFields/FirstNameField/FirstNameField";
+import { LastNameField } from "../FormFields/LastNameField/LastNameField";
+import { FavoriteActorField } from "../FormFields/FavotiteActorField/FavotiteActorField";
+import { FavoriteColorField } from "../FormFields/FavoriteColorField/FavoriteColorField";
 import { FormSuccessMessage } from "../FormSuccessMessage/FormSuccessMessage";
-import { AgreementField } from "../AgreementField/AgreementField";
-import { FavoriteSportField } from "../FavoriteSportField/FavoriteSportField";
-import { FreeTimeActivitiesField } from "../FreeTimeActivitiesField/FreeTimeActivitiesField";
-import { SignField } from "../SignField/SignField";
-import { ACTORS } from "../../constants/actors";
-import { ACTRESSES } from "../../constants/actresses";
-import { TYPES_OF_SPORT } from "../../constants/typesOfSport";
-import { SCHOOL_SUBJECTS } from "../../constants/schoolSubjects";
-import { FREE_TIME_ACTIVITIES } from "../../constants/freeTimeActivities";
-import { LEARNING_OPTIONS } from "../../constants/learningOptions";
+import { AgreementField } from "../FormFields/AgreementField/AgreementField";
+import { FavoriteSportField } from "../FormFields/FavoriteSportField/FavoriteSportField";
+import { FreeTimeActivitiesField } from "../FormFields/FreeTimeActivitiesField/FreeTimeActivitiesField";
+import { SignField } from "../FormFields/SignField/SignField";
+import { FavoriteSchoolSubjectField } from "../FormFields/FavoriteSchoolSubjectField/FavoriteSchoolSubjectField";
+import { LearningOptionsField } from "../FormFields/LearningOptionsField/LearningOptionsField";
+import { FormSubmitButton } from "../FormSubmitButton/FormSubmitButton";
+import { FavoriteActressField } from "../FormFields/FavoriteActressField/FavoriteActressField";
 
 export default function Questionnaire() {
   const [formSent, setFormSent] = React.useState(false);
@@ -60,29 +57,14 @@ export default function Questionnaire() {
             <form onSubmit={handleSubmit(onSubmit)}>
               <FirstNameField control={control} errors={errors} />
               <LastNameField control={control} errors={errors} />
-              <FavoriteActorField
-                control={control}
-                errors={errors}
-                options={ACTORS}
-                label="Любимый актер*"
-                helperText="Пожалуйста, выберите вашего любимого актера"
-                errorRequiredText="Выбор любимого актера обязателен"
-              />
+              <FavoriteActorField control={control} errors={errors} />
               <FavoriteColorField control={control} errors={errors} />
               <FavoriteSportField
                 control={control}
                 errors={errors}
                 setValue={setValue}
-                options={TYPES_OF_SPORT}
-                label="Любимый/любимые виды спорта*"
-                validateErrorMessage="Выберите хотя бы один вид спорта"
               />
-              <FreeTimeActivitiesField
-                control={control}
-                setValue={setValue}
-                options={FREE_TIME_ACTIVITIES}
-                label="Распределите по порядку, что вам больше всего нравится делать в свободное время:"
-              />
+              <FreeTimeActivitiesField control={control} setValue={setValue} />
               <SignField
                 control={control}
                 errors={errors}
@@ -93,14 +75,7 @@ export default function Questionnaire() {
                 errors={errors}
                 label="Я согласен с обработкой моих персональных данных"
               />
-              <Button
-                fullWidth
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
-                Отправить анкету
-              </Button>
+              <FormSubmitButton label="Отправить анкету" />
             </form>
           </>
         ) : (
@@ -109,29 +84,14 @@ export default function Questionnaire() {
             <form onSubmit={handleSubmit(onSubmit)}>
               <FirstNameField control={control} errors={errors} />
               <LastNameField control={control} errors={errors} />
-              <FavoriteActorField
-                control={control}
-                errors={errors}
-                options={ACTRESSES}
-                label="Любимая актриса*"
-                helperText="Пожалуйста, выберите вашу любимую актрису"
-                errorRequiredText="Выбор любимой актрисы обязателен"
-              />
+              <FavoriteActressField control={control} errors={errors} />
               <FavoriteColorField control={control} errors={errors} />
-              <FavoriteSportField
+              <FavoriteSchoolSubjectField
                 control={control}
                 errors={errors}
                 setValue={setValue}
-                options={SCHOOL_SUBJECTS}
-                label="Любимый/любимые школьные предметы*"
-                validateErrorMessage="Выберите хотя бы один предмет"
               />
-              <FreeTimeActivitiesField
-                control={control}
-                setValue={setValue}
-                options={LEARNING_OPTIONS}
-                label="Распределите по порядку, что для вас интереснее изучать или узнавать:"
-              />
+              <LearningOptionsField control={control} setValue={setValue} />
               <SignField
                 control={control}
                 errors={errors}
@@ -142,14 +102,7 @@ export default function Questionnaire() {
                 errors={errors}
                 label="Я согласна с обработкой моих персональных данных"
               />
-              <Button
-                fullWidth
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
-                Отправить анкету
-              </Button>
+              <FormSubmitButton label="Отправить анкету" />
             </form>
           </>
         )}

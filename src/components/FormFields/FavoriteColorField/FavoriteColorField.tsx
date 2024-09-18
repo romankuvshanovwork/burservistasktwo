@@ -3,7 +3,7 @@ import FormControl from "@mui/material/FormControl/FormControl";
 import FormLabel from "@mui/material/FormLabel/FormLabel";
 import RadioGroup from "@mui/material/RadioGroup/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
-import { COLORS } from "../../constants/colors";
+import { COLORS } from "../../../constants/colors";
 import Radio from "@mui/material/Radio/Radio";
 import FormHelperText from "@mui/material/FormHelperText/FormHelperText";
 

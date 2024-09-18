@@ -13,76 +13,76 @@ import FormGroup from "@mui/material/FormGroup/FormGroup";
 import Checkbox from "@mui/material/Checkbox/Checkbox";
 import { useState } from "react";
 
-export function FavoriteSportField({
+export function CheckboxesGroupField({
   control,
   errors,
-  setValue,
   options,
   label,
   validateErrorMessage,
+  name,
+  setValue,
 }: {
   control: Control;
   errors: FieldErrors;
-  setValue: UseFormSetValue<FieldValues>;
   options: any;
   label: string;
   validateErrorMessage: string;
+  name: string;
+  setValue: UseFormSetValue<FieldValues>;
 }) {
-  const [sportsState, setSportsState] = useState(
-    options.map((sport: any) => ({ ...sport, state: false }))
+  const [optionsState, setOptionsState] = useState(
+    options.map((option: any) => ({ ...option, state: false }))
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSportsState(
-      sportsState.map((sport: any) =>
-        sport.value === event.target.name
-          ? { ...sport, state: event.target.checked }
-          : sport
+    setOptionsState(
+      optionsState.map((option: any) =>
+        option.value === event.target.name
+          ? { ...option, state: event.target.checked }
+          : option
       )
     );
 
     setValue(
-      "favoriteSport",
-      sportsState.map((sport: any) =>
-        sport.value === event.target.name
-          ? { ...sport, state: event.target.checked }
-          : sport
+      name,
+      optionsState.map((option: any) =>
+        option.value === event.target.name
+          ? { ...option, state: event.target.checked }
+          : option
       )
     );
   };
 
   return (
     <Controller
-      name="favoriteSport"
+      name={name}
       control={control}
       rules={{
         validate: () =>
-          sportsState.some((sport: any) => sport.state) ||
+          optionsState.some((option: any) => option.state) ||
           validateErrorMessage,
       }}
       render={({ field }) => (
-        <FormControl margin="dense" fullWidth error={!!errors.favoriteSport}>
+        <FormControl margin="dense" fullWidth error={!!errors?.[name]}>
           <FormLabel component="legend">{label}</FormLabel>
           <FormGroup>
-            {sportsState.map((sport: any) => (
+            {optionsState.map((option: any) => (
               <FormControlLabel
-                key={sport.value}
+                key={option.value}
                 control={
                   <Checkbox
-                    checked={sport.state}
+                    checked={option.state}
                     onChange={handleChange}
-                    name={sport.value}
+                    name={option.value}
                   />
                 }
-                label={sport.label}
+                label={option.label}
               />
             ))}
           </FormGroup>
-          {errors.favoriteSport && (
+          {errors?.[name] && (
             <FormHelperText error>
-              {typeof errors.favoriteSport.message === "string"
-                ? errors.favoriteSport.message
-                : "Invalid selection"}
+              {errors?.[name]?.message?.toString() || ""}
             </FormHelperText>
           )}
         </FormControl>
