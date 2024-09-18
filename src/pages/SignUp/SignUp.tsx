@@ -12,6 +12,7 @@ import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import { GENDERS } from "../../constants/genders";
 import { User } from "../../api/User";
+import { Controller, useForm } from "react-hook-form";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -45,14 +46,13 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp() {
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  const [fioError, setFioError] = React.useState(false);
-  const [fioErrorMessage, setFioErrorMessage] = React.useState("");
-  const [phoneError, setPhoneError] = React.useState(false);
-  const [phoneErrorMessage, setPhoneErrorMessage] = React.useState("");
-
   const navigate = useNavigate();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   //   TODO: Сделать через конструктор и new
   const user = User;
@@ -61,68 +61,15 @@ export default function SignUp() {
     if (user.isLogedIn()) navigate("/personal");
   }, [navigate, user]);
 
-  const validateInputs = () => {
-    const password = document.getElementById("password") as HTMLInputElement;
-    const fio = document.getElementById("fio") as HTMLInputElement;
-    const phone = document.getElementById("phone") as HTMLInputElement;
+  const onSubmit = (data: any) => {
+    console.log(data);
 
-    let isValid = true;
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage("Пароль должен быть не короче 6 символов");
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage("");
-    }
-
-    if (!fio.value || fio.value.length < 1) {
-      setFioError(true);
-      setFioErrorMessage("ФИО обязательно");
-      isValid = false;
-    } else {
-      setFioError(false);
-      setFioErrorMessage("");
-    }
-
-    if (!phone.value || !/^((\+7)+([0-9]){10})$/.test(phone.value)) {
-      setPhoneError(true);
-      setPhoneErrorMessage(
-        "Пожалуйста, введите корректный номер телефона. Пример: +79990001234"
-      );
-      isValid = false;
-    } else {
-      setPhoneError(false);
-      setPhoneErrorMessage("");
-    }
-
-    return isValid;
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!validateInputs()) return;
-
-    const data = new FormData(event.currentTarget);
-    const phone = data.get("phone") as string;
-    const fio = data.get("fio") as string;
-    const password = data.get("password") as string;
-    const gender = data.get("gender") as string;
-
-    console.log({
-      fio: fio,
-      phone: phone,
-      password: password,
-      gender: gender,
-    });
-    user.register(phone, password, fio, gender);
+    user.register(data?.phone, data?.password, data?.fio, data?.gender);
     navigate("/personal");
   };
 
   return (
     <>
-      {/* TODO: Переделать на react-hook-form */}
       <SignUpContainer direction="column" justifyContent="space-between">
         <Stack
           sx={{
@@ -141,81 +88,135 @@ export default function SignUp() {
             </Typography>
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
-              <FormControl>
-                <FormLabel htmlFor="phone">Телефон</FormLabel>
-                <TextField
-                  error={phoneError}
-                  helperText={phoneErrorMessage}
-                  id="phone"
-                  type="tel"
-                  name="phone"
-                  placeholder="+79990001234"
-                  autoComplete="phone"
-                  autoFocus
-                  required
-                  fullWidth
-                  variant="outlined"
-                  color={phoneError ? "error" : "primary"}
-                  sx={{ ariaLabel: "phone" }}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="fio">ФИО</FormLabel>
-                <TextField
-                  autoComplete="name"
-                  name="fio"
-                  required
-                  fullWidth
-                  id="fio"
-                  placeholder="Фамилия Имя Отчество"
-                  error={fioError}
-                  helperText={fioErrorMessage}
-                  color={fioError ? "error" : "primary"}
-                />
-              </FormControl>
-              <FormControl sx={{ marginTop: "20px" }}>
-                <TextField
-                  id="gender"
-                  name="gender"
-                  required
-                  select
-                  fullWidth
-                  label="Пол"
-                  defaultValue="male"
-                  helperText="Пожалуйста, выберите свой пол"
-                >
-                  {GENDERS.map((gender) => (
-                    <MenuItem key={gender.value} value={gender.value}>
-                      {gender.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="password">Пароль</FormLabel>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  placeholder="••••••"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  variant="outlined"
-                  error={passwordError}
-                  helperText={passwordErrorMessage}
-                  color={passwordError ? "error" : "primary"}
-                />
-              </FormControl>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                onClick={validateInputs}
-              >
+              <Controller
+                name="phone"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: "Номер телефона обязателен",
+                  pattern: {
+                    value: /^((\+7)+([0-9]){10})$/,
+                    message:
+                      "Пожалуйста, введите корректный номер телефона. Пример: +79990001234",
+                  },
+                }}
+                render={({ field }) => (
+                  <FormControl>
+                    <FormLabel htmlFor="phone">Телефон</FormLabel>
+                    <TextField
+                      {...field}
+                      error={!!errors?.phone}
+                      helperText={
+                        errors.phone ? (errors.phone.message as string) : ""
+                      }
+                      id="phone"
+                      type="tel"
+                      placeholder="+79990001234"
+                      autoComplete="phone"
+                      autoFocus
+                      fullWidth
+                      variant="outlined"
+                      color={!!errors?.phone ? "error" : "primary"}
+                      sx={{ ariaLabel: "phone" }}
+                    />
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name="fio"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: "ФИО обязательно",
+                }}
+                render={({ field }) => (
+                  <FormControl>
+                    <FormLabel htmlFor="phone">ФИО</FormLabel>
+                    <TextField
+                      {...field}
+                      error={!!errors?.fio}
+                      helperText={
+                        errors.fio ? (errors.fio.message as string) : ""
+                      }
+                      autoComplete="name"
+                      fullWidth
+                      id="fio"
+                      placeholder="Фамилия Имя Отчество"
+                      color={!!errors?.fio ? "error" : "primary"}
+                      sx={{ ariaLabel: "phone" }}
+                    />
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name="gender"
+                control={control}
+                defaultValue="male"
+                render={({ field }) => (
+                  <FormControl sx={{ marginTop: "20px" }}>
+                    <TextField
+                      {...field}
+                      id="gender"
+                      select
+                      fullWidth
+                      label="Пол"
+                      helperText="Пожалуйста, выберите свой пол"
+                    >
+                      {GENDERS.map((gender) => (
+                        <MenuItem key={gender.value} value={gender.value}>
+                          {gender.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </FormControl>
+                )}
+              />
+              <Controller
+                name="password"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: "Пароль обязателен",
+                  minLength: {
+                    value: 6,
+                    message: "Пароль должен быть не короче 6 символов",
+                  },
+                }}
+                render={({ field }) => (
+                  <FormControl>
+                    <Box
+                      sx={{ display: "flex", justifyContent: "space-between" }}
+                    >
+                      <FormLabel htmlFor="password">Пароль</FormLabel>
+                      <ReactRouterLink to={"/rememberpassword"}>
+                        Забыли пароль?
+                      </ReactRouterLink>
+                    </Box>
+                    <TextField
+                      {...field}
+                      error={!!errors?.password}
+                      helperText={
+                        errors.password
+                          ? (errors.password.message as string)
+                          : ""
+                      }
+                      name="password"
+                      placeholder="••••••"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                      autoFocus
+                      fullWidth
+                      variant="outlined"
+                      color={!!errors?.password ? "error" : "primary"}
+                    />
+                  </FormControl>
+                )}
+              />
+              <Button type="submit" fullWidth variant="contained">
                 Зарегистрироваться
               </Button>
               <Typography sx={{ textAlign: "center" }}>

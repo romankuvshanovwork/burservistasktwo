@@ -1,6 +1,7 @@
 import { IUser } from "../interfaces/IUser";
 
 // TODO: Переписать покрасивее и предусмотреть крайние случаи. Возращать объект: {success, result, errorMessage}
+// TODO: Предусмотреть такой пользователь уже есть
 export const User: {
   isLogedIn: () =>  boolean;
   currentUser: () => IUser;
