@@ -12,6 +12,7 @@ import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { User } from "../../api/User";
 import { Controller, useForm } from "react-hook-form";
 
+// TODO: Посмотреть как можно вынести styled в отдельное место и делают ли так вообще?
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -69,83 +70,81 @@ export default function RememberPassword() {
   };
 
   return (
-    <>
-      <RememberPasswordContainer
-        direction="column"
-        justifyContent="space-between"
+    <RememberPasswordContainer
+      direction="column"
+      justifyContent="space-between"
+    >
+      <Stack
+        sx={{
+          justifyContent: "center",
+          height: "100dvh",
+          p: 2,
+        }}
       >
-        <Stack
-          sx={{
-            justifyContent: "center",
-            height: "100dvh",
-            p: 2,
-          }}
-        >
-          <Card variant="outlined">
-            <Typography
-              component="h1"
-              variant="h4"
-              sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
-            >
-              Восстановить пароль
-            </Typography>
-            <Box
-              component="form"
-              onSubmit={handleSubmit(onSubmit)}
-              sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-            >
-              <Controller
-                name="phone"
-                control={control}
-                defaultValue=""
-                rules={{
-                  required: "Номер телефона обязателен",
-                  pattern: {
-                    value: /^((\+7)+([0-9]){10})$/,
-                    message:
-                      "Пожалуйста, введите корректный номер телефона. Пример: +79990001234",
-                  },
-                }}
-                render={({ field }) => (
-                  <FormControl>
-                    <FormLabel htmlFor="phone">Телефон</FormLabel>
-                    <TextField
-                      {...field}
-                      error={!!errors?.phone}
-                      helperText={
-                        errors.phone ? (errors.phone.message as string) : ""
-                      }
-                      id="phone"
-                      type="tel"
-                      placeholder="+79990001234"
-                      autoComplete="phone"
-                      autoFocus
-                      fullWidth
-                      variant="outlined"
-                      color={!!errors?.phone ? "error" : "primary"}
-                      sx={{ ariaLabel: "phone" }}
-                    />
-                  </FormControl>
-                )}
-              />
-              {rememberedPassword && (
-                <Typography variant="subtitle1" gutterBottom>
-                  Ваш пароль: {rememberedPassword}
-                </Typography>
+        <Card variant="outlined">
+          <Typography
+            component="h1"
+            variant="h4"
+            sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
+          >
+            Восстановить пароль
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+          >
+            <Controller
+              name="phone"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: "Номер телефона обязателен",
+                pattern: {
+                  value: /^((\+7)+([0-9]){10})$/,
+                  message:
+                    "Пожалуйста, введите корректный номер телефона. Пример: +79990001234",
+                },
+              }}
+              render={({ field }) => (
+                <FormControl>
+                  <FormLabel htmlFor="phone">Телефон</FormLabel>
+                  <TextField
+                    {...field}
+                    error={!!errors?.phone}
+                    helperText={
+                      errors.phone ? (errors.phone.message as string) : ""
+                    }
+                    id="phone"
+                    type="tel"
+                    placeholder="+79990001234"
+                    autoComplete="phone"
+                    autoFocus
+                    fullWidth
+                    variant="outlined"
+                    color={!!errors?.phone ? "error" : "primary"}
+                    sx={{ ariaLabel: "phone" }}
+                  />
+                </FormControl>
               )}
-              <Button type="submit" fullWidth variant="contained">
-                Восстановить пароль
-              </Button>
-              <Typography sx={{ textAlign: "center" }}>
-                Вспомнили свой пароль?{" "}
-                <span>
-                  <ReactRouterLink to={"/signin"}>Войти</ReactRouterLink>
-                </span>
+            />
+            {rememberedPassword && (
+              <Typography variant="subtitle1" gutterBottom>
+                Ваш пароль: {rememberedPassword}
               </Typography>
-            </Box>
-          </Card>
-        </Stack>
-      </RememberPasswordContainer>
-    </>
+            )}
+            <Button type="submit" fullWidth variant="contained">
+              Восстановить пароль
+            </Button>
+            <Typography sx={{ textAlign: "center" }}>
+              Вспомнили свой пароль?{" "}
+              <span>
+                <ReactRouterLink to={"/signin"}>Войти</ReactRouterLink>
+              </span>
+            </Typography>
+          </Box>
+        </Card>
+      </Stack>
+    </RememberPasswordContainer>
   );
 }

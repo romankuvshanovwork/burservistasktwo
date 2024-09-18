@@ -11,7 +11,9 @@ import { styled } from "@mui/material/styles";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { User } from "../../api/User";
 import { QuestionnaireAPI } from "../../api/QuestionnaireAPI";
+import { Controller, useForm } from "react-hook-form";
 
+// TODO: Посмотреть как можно вынести styled в отдельное место и делают ли так вообще?
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -50,12 +52,7 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignIn(props: { disableCustomTheme?: boolean }) {
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  const [phoneError, setPhoneError] = React.useState(false);
-  const [phoneErrorMessage, setPhoneErrorMessage] = React.useState("");
-
+export default function SignIn() {
   const [amountOfRegisteredUsers, setAmountOfRegisteredUsers] = React.useState<
     number | undefined
   >();
@@ -64,6 +61,12 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   >();
 
   const navigate = useNavigate();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const user = User;
   const questionnaire = QuestionnaireAPI;
@@ -82,143 +85,127 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     [questionnaire.amountOfQuestionnaires]
   );
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!validateInputs()) return;
-
-    const data = new FormData(event.currentTarget);
-    const password = data.get("password") as string;
-    const phone = data.get("phone") as string;
-
-    console.log({
-      password: password,
-      phone: phone,
-    });
-
-    const result = user.login(phone, password);
+  const onSubmit = (data: any) => {
+    console.log(data);
+    const result = user.login(data?.phone, data?.password);
     if (result) navigate("/personal");
   };
 
-  const validateInputs = () => {
-    const password = document.getElementById("password") as HTMLInputElement;
-    const phone = document.getElementById("phone") as HTMLInputElement;
-
-    let isValid = true;
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage("Пароль должен быть не короче 6 символов");
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage("");
-    }
-
-    if (!phone.value || !/^((\+7)+([0-9]){10})$/.test(phone.value)) {
-      setPhoneError(true);
-      setPhoneErrorMessage(
-        "Пожалуйста, введите корректный номер телефона. Пример: +79990001234"
-      );
-      isValid = false;
-    } else {
-      setPhoneError(false);
-      setPhoneErrorMessage("");
-    }
-
-    return isValid;
-  };
-
   return (
-    <>
-      {/* TODO: Переделать на react-hook-form */}
-      <SignInContainer direction="column" justifyContent="space-between">
-        <Card variant="outlined">
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
-          >
-            Войти
+    <SignInContainer direction="column" justifyContent="space-between">
+      <Card variant="outlined">
+        <Typography
+          component="h1"
+          variant="h4"
+          sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
+        >
+          Войти
+        </Typography>
+        <Box>
+          <Typography variant="subtitle1">
+            Количество зарегистрировавшихся пользователей:{" "}
+            {amountOfRegisteredUsers}
           </Typography>
-          <Box>
-            <Typography variant="subtitle1">
-              Количество зарегистрировавшихся пользователей:{" "}
-              {amountOfRegisteredUsers}
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              Количество анкет: {amountOfQuestionnaires}
-            </Typography>
-          </Box>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              gap: 2,
+          <Typography variant="subtitle1" gutterBottom>
+            Количество анкет: {amountOfQuestionnaires}
+          </Typography>
+        </Box>
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            gap: 2,
+          }}
+        >
+          <Controller
+            name="phone"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: "Номер телефона обязателен",
+              pattern: {
+                value: /^((\+7)+([0-9]){10})$/,
+                message:
+                  "Пожалуйста, введите корректный номер телефона. Пример: +79990001234",
+              },
             }}
-          >
-            <FormControl>
-              <FormLabel htmlFor="phone">Телефон</FormLabel>
-              <TextField
-                error={phoneError}
-                helperText={phoneErrorMessage}
-                id="phone"
-                type="tel"
-                name="phone"
-                placeholder="+79990001234"
-                autoComplete="phone"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={phoneError ? "error" : "primary"}
-                sx={{ ariaLabel: "phone" }}
-              />
-            </FormControl>
-            <FormControl>
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <FormLabel htmlFor="password">Пароль</FormLabel>
-                <ReactRouterLink to={"/rememberpassword"}>
-                  Забыли пароль?
-                </ReactRouterLink>
-              </Box>
-              <TextField
-                error={passwordError}
-                helperText={passwordErrorMessage}
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={passwordError ? "error" : "primary"}
-              />
-            </FormControl>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              onClick={validateInputs}
-            >
-              Войти
-            </Button>
-            <Typography sx={{ textAlign: "center" }}>
-              Нет аккаунта?{" "}
-              <span>
-                <ReactRouterLink to={"/signup"}>
-                  Зарегистрироваться
-                </ReactRouterLink>
-              </span>
-            </Typography>
-          </Box>
-        </Card>
-      </SignInContainer>
-    </>
+            render={({ field }) => (
+              <FormControl>
+                <FormLabel htmlFor="phone">Телефон</FormLabel>
+                <TextField
+                  {...field}
+                  error={!!errors?.phone}
+                  helperText={
+                    errors.phone ? (errors.phone.message as string) : ""
+                  }
+                  id="phone"
+                  type="tel"
+                  placeholder="+79990001234"
+                  autoComplete="phone"
+                  autoFocus
+                  fullWidth
+                  variant="outlined"
+                  color={!!errors?.phone ? "error" : "primary"}
+                  sx={{ ariaLabel: "phone" }}
+                />
+              </FormControl>
+            )}
+          />
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: "Пароль обязателен",
+              minLength: {
+                value: 6,
+                message: "Пароль должен быть не короче 6 символов",
+              },
+            }}
+            render={({ field }) => (
+              <FormControl>
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <FormLabel htmlFor="password">Пароль</FormLabel>
+                  <ReactRouterLink to={"/rememberpassword"}>
+                    Забыли пароль?
+                  </ReactRouterLink>
+                </Box>
+                <TextField
+                  {...field}
+                  error={!!errors?.password}
+                  helperText={
+                    errors.password ? (errors.password.message as string) : ""
+                  }
+                  name="password"
+                  placeholder="••••••"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  autoFocus
+                  fullWidth
+                  variant="outlined"
+                  color={!!errors?.password ? "error" : "primary"}
+                />
+              </FormControl>
+            )}
+          />
+          <Button type="submit" fullWidth variant="contained">
+            Войти
+          </Button>
+          <Typography sx={{ textAlign: "center" }}>
+            Нет аккаунта?{" "}
+            <span>
+              <ReactRouterLink to={"/signup"}>
+                Зарегистрироваться
+              </ReactRouterLink>
+            </span>
+          </Typography>
+        </Box>
+      </Card>
+    </SignInContainer>
   );
 }
