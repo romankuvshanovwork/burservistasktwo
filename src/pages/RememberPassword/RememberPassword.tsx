@@ -10,6 +10,7 @@ import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { User } from "../../api/User";
+import { Controller, useForm } from "react-hook-form";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -30,7 +31,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
   }),
 }));
 
-const SignUpContainer = styled(Stack)(({ theme }) => ({
+const RememberPasswordContainer = styled(Stack)(({ theme }) => ({
   height: "100%",
   padding: 4,
   backgroundImage:
@@ -43,11 +44,15 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function RememberPassword() {
-  const [phoneError, setPhoneError] = React.useState(false);
-  const [phoneErrorMessage, setPhoneErrorMessage] = React.useState("");
   const [rememberedPassword, setRememberedPassword] = React.useState("");
 
   const navigate = useNavigate();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const user = User;
 
@@ -55,45 +60,20 @@ export default function RememberPassword() {
     if (user.isLogedIn()) navigate("/personal");
   }, [navigate, user]);
 
-  const validateInputs = () => {
-    const phone = document.getElementById("phone") as HTMLInputElement;
+  const onSubmit = (data: any) => {
+    console.log(data);
 
-    let isValid = true;
-
-    if (!phone.value || !/^((\+7)+([0-9]){10})$/.test(phone.value)) {
-      setPhoneError(true);
-      setPhoneErrorMessage(
-        "Пожалуйста, введите корректный номер телефона. Пример: +79990001234"
-      );
-      isValid = false;
-    } else {
-      setPhoneError(false);
-      setPhoneErrorMessage("");
-    }
-
-    return isValid;
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!validateInputs()) return;
-
-    const data = new FormData(event.currentTarget);
-    const phone = data.get("phone") as string;
-
-    console.log({
-      phone: phone,
-    });
-
-    const result = user.rememberPassword(phone);
+    const result = user.rememberPassword(data?.phone);
     setRememberedPassword(result);
     console.log(result);
   };
 
   return (
     <>
-      {/* TODO: Переделать на react-hook-form */}
-      <SignUpContainer direction="column" justifyContent="space-between">
+      <RememberPasswordContainer
+        direction="column"
+        justifyContent="space-between"
+      >
         <Stack
           sx={{
             justifyContent: "center",
@@ -111,38 +91,49 @@ export default function RememberPassword() {
             </Typography>
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
-              <FormControl>
-                <FormLabel htmlFor="phone">Телефон</FormLabel>
-                <TextField
-                  error={phoneError}
-                  helperText={phoneErrorMessage}
-                  id="phone"
-                  type="tel"
-                  name="phone"
-                  placeholder="+79990001234"
-                  autoComplete="phone"
-                  autoFocus
-                  required
-                  fullWidth
-                  variant="outlined"
-                  color={phoneError ? "error" : "primary"}
-                  sx={{ ariaLabel: "phone" }}
-                />
-              </FormControl>
+              <Controller
+                name="phone"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: "Номер телефона обязателен",
+                  pattern: {
+                    value: /^((\+7)+([0-9]){10})$/,
+                    message:
+                      "Пожалуйста, введите корректный номер телефона. Пример: +79990001234",
+                  },
+                }}
+                render={({ field }) => (
+                  <FormControl>
+                    <FormLabel htmlFor="phone">Телефон</FormLabel>
+                    <TextField
+                      {...field}
+                      error={!!errors?.phone}
+                      helperText={
+                        errors.phone ? (errors.phone.message as string) : ""
+                      }
+                      id="phone"
+                      type="tel"
+                      placeholder="+79990001234"
+                      autoComplete="phone"
+                      autoFocus
+                      fullWidth
+                      variant="outlined"
+                      color={!!errors?.phone ? "error" : "primary"}
+                      sx={{ ariaLabel: "phone" }}
+                    />
+                  </FormControl>
+                )}
+              />
               {rememberedPassword && (
                 <Typography variant="subtitle1" gutterBottom>
                   Ваш пароль: {rememberedPassword}
                 </Typography>
               )}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                onClick={validateInputs}
-              >
+              <Button type="submit" fullWidth variant="contained">
                 Восстановить пароль
               </Button>
               <Typography sx={{ textAlign: "center" }}>
@@ -154,7 +145,7 @@ export default function RememberPassword() {
             </Box>
           </Card>
         </Stack>
-      </SignUpContainer>
+      </RememberPasswordContainer>
     </>
   );
 }
