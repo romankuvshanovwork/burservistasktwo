@@ -59,6 +59,7 @@ export default function SignIn() {
   const [amountOfQuestionnaires, setAmountOfQuestionnaires] = React.useState<
     number | undefined
   >();
+  const [signInResult, setSignInResult] = React.useState<string | boolean>();
 
   const navigate = useNavigate();
 
@@ -88,7 +89,8 @@ export default function SignIn() {
   const onSubmit = (data: any) => {
     console.log(data);
     const result = user.login(data?.phone, data?.password);
-    if (result) navigate("/personal");
+    if (result === true) navigate("/personal");
+    else setSignInResult(result);
   };
 
   return (
@@ -193,6 +195,7 @@ export default function SignIn() {
               </FormControl>
             )}
           />
+          <Typography>{signInResult}</Typography>
           <Button type="submit" fullWidth variant="contained">
             Войти
           </Button>

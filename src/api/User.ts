@@ -3,7 +3,7 @@ import { IUser } from "../interfaces/IUser";
 // TODO: Переписать покрасивее и предусмотреть крайние случаи. Возращать объект: {success, result, errorMessage}
 // TODO: Предусмотреть такой пользователь уже есть
 export const User: {
-  isLogedIn: () =>  boolean;
+  isLogedIn: () => boolean;
   currentUser: () => IUser;
   amountOfRegisteredUsers: number;
   login: (phone: string, password: string) => boolean | string;
@@ -12,14 +12,15 @@ export const User: {
     password: string,
     fio: string,
     gender: string
-  ) => void;
+  ) => boolean | string;
   rememberPassword: (phone: string) => string;
   logout: () => void;
 } = {
   isLogedIn: () => !!localStorage.getItem("currentUser"),
-  currentUser: () => !!localStorage.getItem("currentUser")
-    ? JSON.parse(localStorage.getItem("currentUser") || "{}")
-    : [],
+  currentUser: () =>
+    !!localStorage.getItem("currentUser")
+      ? JSON.parse(localStorage.getItem("currentUser") || "{}")
+      : [],
   amountOfRegisteredUsers: !!localStorage.getItem("users")
     ? JSON.parse(localStorage.getItem("users") || "{}")?.length
     : 0,
@@ -49,14 +50,20 @@ export const User: {
     const users = !!localStorage.getItem("users")
       ? JSON.parse(localStorage.getItem("users") || "{}")
       : [];
-    localStorage.setItem(
-      "users",
-      JSON.stringify([
-        ...users,
-        { phone: phone, password: password, fio: fio, gender: gender },
-      ])
-    );
-    this.login(phone, password);
+    const user = users?.find((user: IUser) => user?.phone === phone);
+
+    if (user) {
+      return "Пользователь с таким номером телефона уже зарегистрирован. Если вы не помните пароль, то попробуйте его восстановить";
+    } else {
+      localStorage.setItem(
+        "users",
+        JSON.stringify([
+          ...users,
+          { phone: phone, password: password, fio: fio, gender: gender },
+        ])
+      );
+      return this.login(phone, password);
+    }
   },
   rememberPassword: function (phone: string) {
     const users = !!localStorage.getItem("users")

@@ -46,6 +46,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp() {
+  const [signUpResult, setSignUpResult] = React.useState<string | boolean>();
   const navigate = useNavigate();
 
   const {
@@ -64,8 +65,14 @@ export default function SignUp() {
   const onSubmit = (data: any) => {
     console.log(data);
 
-    user.register(data?.phone, data?.password, data?.fio, data?.gender);
-    navigate("/personal");
+    const result = user.register(
+      data?.phone,
+      data?.password,
+      data?.fio,
+      data?.gender
+    );
+    if (result === true) navigate("/personal");
+    else setSignUpResult(result);
   };
 
   return (
@@ -216,6 +223,7 @@ export default function SignUp() {
                   </FormControl>
                 )}
               />
+              <Typography>{signUpResult}</Typography>
               <Button type="submit" fullWidth variant="contained">
                 Зарегистрироваться
               </Button>
