@@ -4,7 +4,7 @@ import { memo, useCallback } from "react";
 import { useDrop } from "react-dnd";
 
 import { DragAndDropSortableListCard } from "../DragAndDropSortableListCard/DragAndDropSortableListCard";
-import { ItemTypes } from "../../../../constants/ItemTypes";
+import { ItemTypes } from "../../../../../constants/ItemTypes";
 
 const style = {
   width: "auto",

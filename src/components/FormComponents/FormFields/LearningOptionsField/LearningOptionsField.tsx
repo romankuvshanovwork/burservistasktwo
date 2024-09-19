@@ -1,6 +1,6 @@
 import { Control, UseFormSetValue, FieldValues } from "react-hook-form";
 import { DragAndDropSortableListField } from "../../CustomReusableFormFields/DragAndDropSortableListField/DragAndDropSortableListField";
-import { LEARNING_OPTIONS } from "../../../constants/learningOptions";
+import { LEARNING_OPTIONS } from "../../../../constants/learningOptions";
 
 export function LearningOptionsField({
   // TODO: Спросить как здесь улучшить?

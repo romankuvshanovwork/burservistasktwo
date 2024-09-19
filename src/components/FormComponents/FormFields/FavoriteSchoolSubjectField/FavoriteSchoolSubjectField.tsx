@@ -5,9 +5,9 @@ import {
   FieldValues,
 } from "react-hook-form";
 import { CheckboxesGroupField } from "../../CustomReusableFormFields/CheckboxesGroupField/CheckboxesGroupField";
-import { TYPES_OF_SPORT } from "../../../constants/typesOfSport";
+import { SCHOOL_SUBJECTS } from "../../../../constants/schoolSubjects";
 
-export function FavoriteSportField({
+export function FavoriteSchoolSubjectField({
   control,
   errors,
   setValue,
@@ -20,10 +20,10 @@ export function FavoriteSportField({
     <CheckboxesGroupField
       control={control}
       errors={errors}
-      options={TYPES_OF_SPORT}
-      label={"Любимый/любимые виды спорта*"}
-      validateErrorMessage={"Выберите хотя бы один вид спорта"}
-      name={"favoriteSport"}
+      options={SCHOOL_SUBJECTS}
+      label={"Любимый/любимые школьные предметы*"}
+      validateErrorMessage={"Выберите хотя бы один предмет"}
+      name={"favoriteSchoolSubject"}
       setValue={setValue}
     />
   );

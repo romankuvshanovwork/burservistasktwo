@@ -1,6 +1,6 @@
 import { Control, UseFormSetValue, FieldValues } from "react-hook-form";
 import { DragAndDropSortableListField } from "../../CustomReusableFormFields/DragAndDropSortableListField/DragAndDropSortableListField";
-import { FREE_TIME_ACTIVITIES } from "../../../constants/freeTimeActivities";
+import { FREE_TIME_ACTIVITIES } from "../../../../constants/freeTimeActivities";
 
 export function FreeTimeActivitiesField({
   control,

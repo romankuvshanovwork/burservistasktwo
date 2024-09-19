@@ -1,6 +1,6 @@
 import { Control, FieldErrors } from "react-hook-form";
 import { SelectField } from "../../CustomReusableFormFields/SelectField/SelectField";
-import { ACTORS } from "../../../constants/actors";
+import { ACTORS } from "../../../../constants/actors";
 
 export function FavoriteActorField({
   control,
