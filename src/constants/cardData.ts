@@ -8,11 +8,11 @@ export const CARD_DATA = [
     authors: [
       {
         name: "Remy Sharp",
-        avatar: "https://avatar.iran.liara.run/public/girl",
+        avatar: "https://avatar.iran.liara.run/public/72",
       },
       {
         name: "Travis Howard",
-        avatar: "https://avatar.iran.liara.run/public/boy",
+        avatar: "https://avatar.iran.liara.run/public/13",
       },
     ],
   },
@@ -25,7 +25,7 @@ export const CARD_DATA = [
     authors: [
       {
         name: "Erica Johns",
-        avatar: "https://avatar.iran.liara.run/public/girl",
+        avatar: "https://avatar.iran.liara.run/public/78",
       },
     ],
   },
@@ -38,7 +38,7 @@ export const CARD_DATA = [
     authors: [
       {
         name: "Kate Morrison",
-        avatar: "https://avatar.iran.liara.run/public/girl",
+        avatar: "https://avatar.iran.liara.run/public/86",
       },
     ],
   },
@@ -51,7 +51,7 @@ export const CARD_DATA = [
     authors: [
       {
         name: "Cindy Baker",
-        avatar: "https://avatar.iran.liara.run/public/girl",
+        avatar: "https://avatar.iran.liara.run/public/51",
       },
     ],
   },
@@ -64,11 +64,11 @@ export const CARD_DATA = [
     authors: [
       {
         name: "Agnes Walker",
-        avatar: "https://avatar.iran.liara.run/public/girl",
+        avatar: "https://avatar.iran.liara.run/public/76",
       },
       {
         name: "Trevor Henderson",
-        avatar: "https://avatar.iran.liara.run/public/boy",
+        avatar: "https://avatar.iran.liara.run/public/3",
       },
     ],
   },

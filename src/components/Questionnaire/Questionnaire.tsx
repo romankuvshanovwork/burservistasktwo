@@ -21,7 +21,7 @@ export default function Questionnaire() {
   const user = User;
   const userGender = user.currentUser().gender;
 
-  //   React.useEffect(() => {
+  //   useEffect(() => {
   //     const isTouched = getFieldState('favoriteSport').isTouched;
   //     if (isTouched) trigger("favoriteSport");
   //   }, [trigger, sportsState, getFieldState]);
