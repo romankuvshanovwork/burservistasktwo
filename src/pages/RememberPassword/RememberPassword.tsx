@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormLabel from "@mui/material/FormLabel";
@@ -11,6 +10,7 @@ import { styled } from "@mui/material/styles";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { User } from "../../api/User";
 import { Controller, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 // TODO: Посмотреть как можно вынести styled в отдельное место и делают ли так вообще?
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -45,7 +45,7 @@ const RememberPasswordContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function RememberPassword() {
-  const [rememberedPassword, setRememberedPassword] = React.useState("");
+  const [rememberedPassword, setRememberedPassword] = useState("");
 
   const navigate = useNavigate();
 
@@ -57,7 +57,7 @@ export default function RememberPassword() {
 
   const user = User;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user.isLogedIn()) navigate("/personal");
   }, [navigate, user]);
 

@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormLabel from "@mui/material/FormLabel";
@@ -12,6 +11,7 @@ import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { User } from "../../api/User";
 import { QuestionnaireAPI } from "../../api/QuestionnaireAPI";
 import { Controller, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 // TODO: Посмотреть как можно вынести styled в отдельное место и делают ли так вообще?
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -53,13 +53,13 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignIn() {
-  const [amountOfRegisteredUsers, setAmountOfRegisteredUsers] = React.useState<
+  const [amountOfRegisteredUsers, setAmountOfRegisteredUsers] = useState<
     number | undefined
   >();
-  const [amountOfQuestionnaires, setAmountOfQuestionnaires] = React.useState<
+  const [amountOfQuestionnaires, setAmountOfQuestionnaires] = useState<
     number | undefined
   >();
-  const [signInResult, setSignInResult] = React.useState<string | boolean>();
+  const [signInResult, setSignInResult] = useState<string | boolean>();
 
   const navigate = useNavigate();
 
@@ -72,16 +72,16 @@ export default function SignIn() {
   const user = User;
   const questionnaire = QuestionnaireAPI;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user.isLogedIn()) navigate("/personal");
   }, [navigate, user]);
 
-  React.useEffect(
+  useEffect(
     () => setAmountOfRegisteredUsers(user.amountOfRegisteredUsers),
     [user.amountOfRegisteredUsers]
   );
 
-  React.useEffect(
+  useEffect(
     () => setAmountOfQuestionnaires(questionnaire.amountOfQuestionnaires),
     [questionnaire.amountOfQuestionnaires]
   );

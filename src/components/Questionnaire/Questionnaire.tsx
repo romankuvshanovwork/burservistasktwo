@@ -1,13 +1,13 @@
-import * as React from "react";
 import { useForm } from "react-hook-form";
 import { User } from "../../api/User";
 import { QuestionnaireAPI } from "../../api/QuestionnaireAPI";
 import { FormSuccessMessage } from "../FormComponents/FormSuccessMessage/FormSuccessMessage";
 import { BoysQuestionnaire } from "../BoysQuestionnaire/BoysQuestionnaire";
 import { GirlsQuestionnaire } from "../GirlsQuestionnaire/GirlsQuestionnaire";
+import { useState } from "react";
 
 export default function Questionnaire() {
-  const [formSent, setFormSent] = React.useState(false);
+  const [formSent, setFormSent] = useState(false);
   const {
     control,
     handleSubmit,

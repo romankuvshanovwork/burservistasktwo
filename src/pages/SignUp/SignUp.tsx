@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormLabel from "@mui/material/FormLabel";
@@ -13,6 +12,7 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import { GENDERS } from "../../constants/genders";
 import { User } from "../../api/User";
 import { Controller, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -46,7 +46,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp() {
-  const [signUpResult, setSignUpResult] = React.useState<string | boolean>();
+  const [signUpResult, setSignUpResult] = useState<string | boolean>();
   const navigate = useNavigate();
 
   const {
@@ -58,7 +58,7 @@ export default function SignUp() {
   //   TODO: Сделать через конструктор и new
   const user = User;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user.isLogedIn()) navigate("/personal");
   }, [navigate, user]);
 

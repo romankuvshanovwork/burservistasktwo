@@ -11,7 +11,7 @@ export default function Blog() {
       <Grid container spacing={2} columns={12}>
         {CARD_DATA.map((cardData, index) => {
           return (
-            <Grid size={{ xs: 12, md: index < 2 ? 6 : 4 }}>
+            <Grid key={cardData.title} size={{ xs: 12, md: index < 2 ? 6 : 4 }}>
               <BlogCard cardData={cardData} />
             </Grid>
           );
