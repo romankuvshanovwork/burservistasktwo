@@ -2,7 +2,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { User } from "../../api/User";
 import { QuestionnaireAPI } from "../../api/QuestionnaireAPI";
-import { FormSuccessMessage } from "../FormSuccessMessage/FormSuccessMessage";
+import { FormSuccessMessage } from "../FormComponents/FormSuccessMessage/FormSuccessMessage";
 import { BoysQuestionnaire } from "../BoysQuestionnaire/BoysQuestionnaire";
 import { GirlsQuestionnaire } from "../GirlsQuestionnaire/GirlsQuestionnaire";
 

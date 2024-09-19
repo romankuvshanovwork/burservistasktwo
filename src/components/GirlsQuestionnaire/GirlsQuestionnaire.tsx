@@ -10,7 +10,7 @@ import { LastNameField } from "../FormFields/LastNameField/LastNameField";
 import { FavoriteColorField } from "../FormFields/FavoriteColorField/FavoriteColorField";
 import { SignField } from "../FormFields/SignField/SignField";
 import { AgreementField } from "../FormFields/AgreementField/AgreementField";
-import { FormSubmitButton } from "../FormSubmitButton/FormSubmitButton";
+import { FormSubmitButton } from "../FormComponents/FormSubmitButton/FormSubmitButton";
 import { FormEventHandler } from "react";
 import { FavoriteActressField } from "../FormFields/FavoriteActressField/FavoriteActressField";
 import { FavoriteSchoolSubjectField } from "../FormFields/FavoriteSchoolSubjectField/FavoriteSchoolSubjectField";
