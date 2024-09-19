@@ -1,10 +1,10 @@
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Container } from "../Container/Container";
+import { DragAndDropSortableListContainer } from "../DragAndDropSortableListContainer/DragAndDropSortableListContainer";
 
 type CardData = { id: number; text: string };
 
-export function List({
+export function DragAndDropSortableListList({
   cards,
   onCardsChange,
 }: {
@@ -14,7 +14,10 @@ export function List({
   return (
     <div>
       <DndProvider backend={HTML5Backend}>
-        <Container cards={cards} onCardsChange={onCardsChange} />
+        <DragAndDropSortableListContainer
+          cards={cards}
+          onCardsChange={onCardsChange}
+        />
       </DndProvider>
     </div>
   );

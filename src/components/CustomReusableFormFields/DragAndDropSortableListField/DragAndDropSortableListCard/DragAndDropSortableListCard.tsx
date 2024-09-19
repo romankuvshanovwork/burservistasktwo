@@ -2,7 +2,7 @@ import type { CSSProperties, FC } from "react";
 import { memo } from "react";
 import { useDrag, useDrop } from "react-dnd";
 
-import { ItemTypes } from "../../constants/ItemTypes";
+import { ItemTypes } from "../../../../constants/ItemTypes";
 
 const style: CSSProperties = {
   border: "1px dashed gray",
@@ -24,7 +24,7 @@ interface Item {
   originalIndex: number;
 }
 
-export const Card: FC<CardProps> = memo(function Card({
+export const DragAndDropSortableListCard: FC<CardProps> = memo(function Card({
   id,
   text,
   moveCard,

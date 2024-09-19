@@ -6,7 +6,7 @@ import {
 } from "react-hook-form";
 import Box from "@mui/material/Box/Box";
 import FormLabel from "@mui/material/FormLabel/FormLabel";
-import { List } from "../../List/List";
+import { DragAndDropSortableListList } from "./DragAndDropSortableListList/DragAndDropSortableListList";
 import { useEffect, useState } from "react";
 
 export function DragAndDropSortableListField({
@@ -45,7 +45,7 @@ export function DragAndDropSortableListField({
           }}
         >
           <FormLabel id={labelId}>{label}</FormLabel>
-          <List cards={cards} onCardsChange={setCards} />
+          <DragAndDropSortableListList cards={cards} onCardsChange={setCards} />
         </Box>
       )}
     />
