@@ -13,7 +13,7 @@ import { styled } from "@mui/material/styles";
 
 const cardData = [
   {
-    img: "https://images.placeholders.dev/?width=800&height=450",
+    img: "https://i.imgur.com/uFtqi7u.jpeg",
     tag: "Engineering",
     title: "Revolutionizing software development with cutting-edge tools",
     description:
@@ -30,7 +30,7 @@ const cardData = [
     ],
   },
   {
-    img: "https://images.placeholders.dev/?width=800&height=450",
+    img: "https://i.imgur.com/zR95d05.jpeg",
     tag: "Product",
     title: "Innovative product features that drive success",
     description:
@@ -43,7 +43,7 @@ const cardData = [
     ],
   },
   {
-    img: "https://images.placeholders.dev/?width=800&height=450",
+    img: "https://i.imgur.com/CNXICXg.jpeg",
     tag: "Design",
     title: "Designing for the future: trends and insights",
     description:
@@ -56,7 +56,7 @@ const cardData = [
     ],
   },
   {
-    img: "https://images.placeholders.dev/?width=800&height=450",
+    img: "https://i.imgur.com/3bohP6N.jpeg",
     tag: "Company",
     title: "Our company's journey: milestones and achievements",
     description:
@@ -69,7 +69,7 @@ const cardData = [
     ],
   },
   {
-    img: "https://images.placeholders.dev/?width=800&height=450",
+    img: "https://i.imgur.com/UZGX1SD.jpeg",
     tag: "Engineering",
     title: "Pioneering sustainable engineering solutions",
     description:
@@ -86,7 +86,7 @@ const cardData = [
     ],
   },
   {
-    img: "https://images.placeholders.dev/?width=800&height=450",
+    img: "https://i.imgur.com/Ugt8Zm5.jpeg",
     tag: "Product",
     title: "Maximizing efficiency with our latest product updates",
     description:
