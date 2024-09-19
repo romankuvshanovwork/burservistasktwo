@@ -5,15 +5,15 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 import Typography from "@mui/material/Typography/Typography";
-import { FirstNameField } from "../FormComponents/FormFields/FirstNameField/FirstNameField";
-import { LastNameField } from "../FormComponents/FormFields/LastNameField/LastNameField";
-import { FavoriteActorField } from "../FormComponents/FormFields/FavotiteActorField/FavotiteActorField";
-import { FavoriteColorField } from "../FormComponents/FormFields/FavoriteColorField/FavoriteColorField";
-import { FavoriteSportField } from "../FormComponents/FormFields/FavoriteSportField/FavoriteSportField";
-import { FreeTimeActivitiesField } from "../FormComponents/FormFields/FreeTimeActivitiesField/FreeTimeActivitiesField";
-import { SignField } from "../FormComponents/FormFields/SignField/SignField";
-import { AgreementField } from "../FormComponents/FormFields/AgreementField/AgreementField";
-import { FormSubmitButton } from "../FormComponents/FormSubmitButton/FormSubmitButton";
+import { FirstNameField } from "../../FormComponents/FormFields/FirstNameField/FirstNameField";
+import { LastNameField } from "../../FormComponents/FormFields/LastNameField/LastNameField";
+import { FavoriteActorField } from "../../FormComponents/FormFields/FavotiteActorField/FavotiteActorField";
+import { FavoriteColorField } from "../../FormComponents/FormFields/FavoriteColorField/FavoriteColorField";
+import { FavoriteSportField } from "../../FormComponents/FormFields/FavoriteSportField/FavoriteSportField";
+import { FreeTimeActivitiesField } from "../../FormComponents/FormFields/FreeTimeActivitiesField/FreeTimeActivitiesField";
+import { SignField } from "../../FormComponents/FormFields/SignField/SignField";
+import { AgreementField } from "../../FormComponents/FormFields/AgreementField/AgreementField";
+import { FormSubmitButton } from "../../FormComponents/FormSubmitButton/FormSubmitButton";
 import { FormEventHandler } from "react";
 import Box from "@mui/material/Box/Box";
 
