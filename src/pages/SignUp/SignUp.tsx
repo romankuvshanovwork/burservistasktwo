@@ -194,14 +194,7 @@ export default function SignUp() {
                 }}
                 render={({ field }) => (
                   <FormControl>
-                    <Box
-                      sx={{ display: "flex", justifyContent: "space-between" }}
-                    >
-                      <FormLabel htmlFor="password">Пароль</FormLabel>
-                      <ReactRouterLink to={"/rememberpassword"}>
-                        Забыли пароль?
-                      </ReactRouterLink>
-                    </Box>
+                    <FormLabel htmlFor="password">Пароль</FormLabel>
                     <TextField
                       {...field}
                       error={!!errors?.password}
@@ -232,6 +225,11 @@ export default function SignUp() {
                 <span>
                   <ReactRouterLink to={"/signin"}>Войти</ReactRouterLink>
                 </span>
+              </Typography>
+              <Typography sx={{ textAlign: "center" }}>
+                <ReactRouterLink to={"/rememberpassword"}>
+                  Забыли пароль?
+                </ReactRouterLink>
               </Typography>
             </Box>
           </Card>

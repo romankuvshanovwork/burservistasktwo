@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
 import Questionnaire from "../../components/Questionnaire/Questionnaire";
 import { useEffect } from "react";
+import Button from "@mui/material/Button/Button";
+import Grid from "@mui/material/Grid2";
 
 export default function Personal() {
   const navigate = useNavigate();
@@ -28,9 +30,18 @@ export default function Personal() {
         backgroundColor: "#fcfcfc",
       }}
     >
-      <Typography sx={{wordBreak: 'break-all'}} variant="h3" gutterBottom>
-        Привет, {user.currentUser()?.fio}
-      </Typography>
+      <Grid container spacing={2} sx={{ alignItems: "center" }}>
+        <Grid size="grow">
+          <Typography sx={{ wordBreak: "break-all" }} variant="h3" gutterBottom>
+            Привет, {user.currentUser()?.fio}
+          </Typography>
+        </Grid>
+        <Grid size={1}>
+          <Button onClick={() => navigate("/logout")} variant="contained">
+            Выйти
+          </Button>
+        </Grid>
+      </Grid>
       <Blog />
       <Questionnaire />
     </Container>
