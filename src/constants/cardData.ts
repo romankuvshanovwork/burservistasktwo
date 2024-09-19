@@ -72,17 +72,4 @@ export const CARD_DATA = [
       },
     ],
   },
-  {
-    img: "https://i.imgur.com/Ugt8Zm5.jpeg",
-    tag: "Product",
-    title: "Maximizing efficiency with our latest product updates",
-    description:
-      "Our recent product updates are designed to help you maximize efficiency and achieve more. Get a detailed overview of the new features and improvements that can elevate your workflow.",
-    authors: [
-      {
-        name: "Travis Howard",
-        avatar: "https://avatar.iran.liara.run/public/boy",
-      },
-    ],
-  },
 ];

@@ -3,14 +3,15 @@ import AvatarGroup from "@mui/material/AvatarGroup/AvatarGroup";
 import Box from "@mui/material/Box/Box";
 import Typography from "@mui/material/Typography/Typography";
 
-export function Author({
+export function BlogAuthor({
   authors,
 }: {
   authors: { name: string; avatar: string }[];
 }) {
   // ВОПРОС: Как организовывать структуру папок? На этом примере:
-  // оставить папку Author с файлом компонента Author.tsx в папке Blog
-  // или в общей папке со всеми компоннтами - Components
+  // оставить папку BlogAuthor с файлом компонента BlogAuthor.tsx в папке Blog
+  // или в общей папке со всеми компоннтами - Components. Или это зависит от того
+  // собираюсь ли я переиспользовать этот компонент где-нибудь в другом месте?
   return (
     <Box
       sx={{
