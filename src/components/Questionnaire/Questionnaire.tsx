@@ -44,6 +44,7 @@ export default function Questionnaire() {
         errors={errors}
         setValue={setValue}
         onSubmit={handleSubmit(onSubmit)}
+        trigger={trigger}
       />
     );
 
@@ -54,6 +55,7 @@ export default function Questionnaire() {
         errors={errors}
         setValue={setValue}
         onSubmit={handleSubmit(onSubmit)}
+        trigger={trigger}
       />
     );
 

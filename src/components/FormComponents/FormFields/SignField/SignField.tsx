@@ -3,6 +3,7 @@ import {
   UseFormSetValue,
   FieldValues,
   FieldErrors,
+  UseFormTrigger,
 } from "react-hook-form";
 import { FileUploadField } from "../../CustomReusableFormFields/FileUploadField/FileUploadField";
 
@@ -10,10 +11,12 @@ export function SignField({
   control,
   errors,
   setValue,
+  trigger,
 }: {
   control: Control;
   errors: FieldErrors;
   setValue: UseFormSetValue<FieldValues>;
+  trigger: UseFormTrigger<FieldValues>;
 }) {
   return (
     <FileUploadField
@@ -24,6 +27,7 @@ export function SignField({
       accept="image/*"
       name="sign"
       setValue={setValue}
+      trigger={trigger}
     />
   );
 }

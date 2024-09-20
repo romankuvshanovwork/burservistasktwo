@@ -4,6 +4,7 @@ import {
   UseFormSetValue,
   FieldValues,
   FieldErrors,
+  UseFormTrigger,
 } from "react-hook-form";
 import { FormHelperText, styled } from "@mui/material";
 import { useState } from "react";
@@ -31,6 +32,7 @@ export function FileUploadField({
   accept,
   name,
   setValue,
+  trigger,
 }: {
   control: Control;
   errors: FieldErrors;
@@ -39,6 +41,7 @@ export function FileUploadField({
   accept: string;
   name: string;
   setValue: UseFormSetValue<FieldValues>;
+  trigger: UseFormTrigger<FieldValues>;
 }) {
   const [fileName, setFileName] = useState("");
 
@@ -67,6 +70,7 @@ export function FileUploadField({
               onChange={(event) => {
                 setFileName(event.target.files?.[0]?.name || "");
                 setValue(name, event.target.files?.[0]?.name || "");
+                trigger(name);
               }}
             />
           </Button>
