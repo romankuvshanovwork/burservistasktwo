@@ -5,33 +5,13 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { User } from "../../api/User";
 import { QuestionnaireAPI } from "../../api/QuestionnaireAPI";
 import { Controller, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-
-// TODO: Посмотреть как можно вынести styled в отдельное место и делают ли так вообще?
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignSelf: "center",
-  width: "100%",
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: "auto",
-  [theme.breakpoints.up("sm")]: {
-    maxWidth: "450px",
-  },
-  boxShadow:
-    "hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px",
-  ...theme.applyStyles("dark", {
-    boxShadow:
-      "hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px",
-  }),
-}));
+import { StyledCard } from "../../components/Styled/StyledCard/StyledCard";
 
 const SignInContainer = styled(Stack)(({ theme }) => ({
   padding: 20,
@@ -95,7 +75,7 @@ export default function SignIn() {
 
   return (
     <SignInContainer direction="column" justifyContent="space-between">
-      <Card variant="outlined">
+      <StyledCard variant="outlined">
         <Typography
           component="h1"
           variant="h4"
@@ -208,7 +188,7 @@ export default function SignIn() {
             </span>
           </Typography>
         </Box>
-      </Card>
+      </StyledCard>
     </SignInContainer>
   );
 }
