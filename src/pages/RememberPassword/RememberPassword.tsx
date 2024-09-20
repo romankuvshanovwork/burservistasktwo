@@ -1,20 +1,18 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { User } from "../../api/User";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { StyledCard } from "../../components/Styled/StyledCard/StyledCard";
 import { StyledAuthContainer } from "../../components/Styled/StyledAuthContainer/StyledAuthContainer";
+import { AuthFormHeadline } from "../../components/FormComponents/AuthFormHeadline/AuthFormHeadline";
+import { AuthPhoneField } from "../../components/FormComponents/FormFields/AuthPhoneField/AuthPhoneField";
 
 export default function RememberPassword() {
   const [rememberedPassword, setRememberedPassword] = useState("");
-
   const navigate = useNavigate();
 
   const {
@@ -30,18 +28,12 @@ export default function RememberPassword() {
   }, [navigate, user]);
 
   const onSubmit = (data: any) => {
-    console.log(data);
-
     const result = user.rememberPassword(data?.phone);
     setRememberedPassword(result);
-    console.log(result);
   };
 
   return (
-    <StyledAuthContainer
-      direction="column"
-      justifyContent="space-between"
-    >
+    <StyledAuthContainer direction="column" justifyContent="space-between">
       <Stack
         sx={{
           justifyContent: "center",
@@ -50,52 +42,13 @@ export default function RememberPassword() {
         }}
       >
         <StyledCard variant="outlined">
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
-          >
-            Восстановить пароль
-          </Typography>
+          <AuthFormHeadline headline="Восстановить пароль" />
           <Box
             component="form"
             onSubmit={handleSubmit(onSubmit)}
             sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           >
-            <Controller
-              name="phone"
-              control={control}
-              defaultValue=""
-              rules={{
-                required: "Номер телефона обязателен",
-                pattern: {
-                  value: /^((\+7)+([0-9]){10})$/,
-                  message:
-                    "Пожалуйста, введите корректный номер телефона. Пример: +79990001234",
-                },
-              }}
-              render={({ field }) => (
-                <FormControl>
-                  <FormLabel htmlFor="phone">Телефон</FormLabel>
-                  <TextField
-                    {...field}
-                    error={!!errors?.phone}
-                    helperText={
-                      errors.phone ? (errors.phone.message as string) : ""
-                    }
-                    id="phone"
-                    type="tel"
-                    placeholder="+79990001234"
-                    autoComplete="phone"
-                    autoFocus
-                    fullWidth
-                    variant="outlined"
-                    color={!!errors?.phone ? "error" : "primary"}
-                    sx={{ ariaLabel: "phone" }}
-                  />
-                </FormControl>
-              )}
-            />
+            <AuthPhoneField control={control} errors={errors} />
             {rememberedPassword && (
               <Typography variant="subtitle1" gutterBottom>
                 Ваш пароль: {rememberedPassword}
@@ -106,9 +59,7 @@ export default function RememberPassword() {
             </Button>
             <Typography sx={{ textAlign: "center" }}>
               Вспомнили свой пароль?{" "}
-              <span>
-                <ReactRouterLink to={"/signin"}>Войти</ReactRouterLink>
-              </span>
+              <ReactRouterLink to={"/signin"}>Войти</ReactRouterLink>
             </Typography>
           </Box>
         </StyledCard>

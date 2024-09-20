@@ -27,7 +27,6 @@ export default function Questionnaire() {
   //   }, [trigger, sportsState, getFieldState]);
 
   const onSubmit = (data: any) => {
-    console.log(data);
     if (user.isLogedIn() && user.currentUser()) {
       questionnaire.addNewQuestionnaire(user.currentUser(), {
         ...data,

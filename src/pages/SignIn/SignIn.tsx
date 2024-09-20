@@ -1,17 +1,17 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { User } from "../../api/User";
 import { QuestionnaireAPI } from "../../api/QuestionnaireAPI";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { StyledCard } from "../../components/Styled/StyledCard/StyledCard";
+import { AuthFormHeadline } from "../../components/FormComponents/AuthFormHeadline/AuthFormHeadline";
+import { AuthPhoneField } from "../../components/FormComponents/FormFields/AuthPhoneField/AuthPhoneField";
+import { AuthPasswordFields } from "../../components/FormComponents/FormFields/AuthPasswordFields/AuthPasswordFields";
 
 const SignInContainer = styled(Stack)(({ theme }) => ({
   padding: 20,
@@ -67,7 +67,6 @@ export default function SignIn() {
   );
 
   const onSubmit = (data: any) => {
-    console.log(data);
     const result = user.login(data?.phone, data?.password);
     if (result === true) navigate("/personal");
     else setSignInResult(result);
@@ -76,13 +75,7 @@ export default function SignIn() {
   return (
     <SignInContainer direction="column" justifyContent="space-between">
       <StyledCard variant="outlined">
-        <Typography
-          component="h1"
-          variant="h4"
-          sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
-        >
-          Войти
-        </Typography>
+        <AuthFormHeadline headline="Войти" />
         <Box>
           <Typography variant="subtitle1">
             Количество зарегистрировавшихся пользователей:{" "}
@@ -103,89 +96,15 @@ export default function SignIn() {
             gap: 2,
           }}
         >
-          <Controller
-            name="phone"
-            control={control}
-            defaultValue=""
-            rules={{
-              required: "Номер телефона обязателен",
-              pattern: {
-                value: /^((\+7)+([0-9]){10})$/,
-                message:
-                  "Пожалуйста, введите корректный номер телефона. Пример: +79990001234",
-              },
-            }}
-            render={({ field }) => (
-              <FormControl>
-                <FormLabel htmlFor="phone">Телефон</FormLabel>
-                <TextField
-                  {...field}
-                  error={!!errors?.phone}
-                  helperText={
-                    errors.phone ? (errors.phone.message as string) : ""
-                  }
-                  id="phone"
-                  type="tel"
-                  placeholder="+79990001234"
-                  autoComplete="phone"
-                  autoFocus
-                  fullWidth
-                  variant="outlined"
-                  color={!!errors?.phone ? "error" : "primary"}
-                  sx={{ ariaLabel: "phone" }}
-                />
-              </FormControl>
-            )}
-          />
-          <Controller
-            name="password"
-            control={control}
-            defaultValue=""
-            rules={{
-              required: "Пароль обязателен",
-              minLength: {
-                value: 6,
-                message: "Пароль должен быть не короче 6 символов",
-              },
-            }}
-            render={({ field }) => (
-              <FormControl>
-                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                  <FormLabel htmlFor="password">Пароль</FormLabel>
-                  <ReactRouterLink to={"/rememberpassword"}>
-                    Забыли пароль?
-                  </ReactRouterLink>
-                </Box>
-                <TextField
-                  {...field}
-                  error={!!errors?.password}
-                  helperText={
-                    errors.password ? (errors.password.message as string) : ""
-                  }
-                  name="password"
-                  placeholder="••••••"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  autoFocus
-                  fullWidth
-                  variant="outlined"
-                  color={!!errors?.password ? "error" : "primary"}
-                />
-              </FormControl>
-            )}
-          />
+          <AuthPhoneField control={control} errors={errors} />
+          <AuthPasswordFields control={control} errors={errors} />
           <Typography>{signInResult}</Typography>
           <Button type="submit" fullWidth variant="contained">
             Войти
           </Button>
           <Typography sx={{ textAlign: "center" }}>
             Нет аккаунта?{" "}
-            <span>
-              <ReactRouterLink to={"/signup"}>
-                Зарегистрироваться
-              </ReactRouterLink>
-            </span>
+            <ReactRouterLink to={"/signup"}>Зарегистрироваться</ReactRouterLink>
           </Typography>
         </Box>
       </StyledCard>
