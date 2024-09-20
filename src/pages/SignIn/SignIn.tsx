@@ -12,6 +12,7 @@ import { StyledCard } from "../../components/Styled/StyledCard/StyledCard";
 import { AuthFormHeadline } from "../../components/FormComponents/AuthFormHeadline/AuthFormHeadline";
 import { AuthPhoneField } from "../../components/FormComponents/FormFields/AuthPhoneField/AuthPhoneField";
 import { AuthPasswordFields } from "../../components/FormComponents/FormFields/AuthPasswordFields/AuthPasswordFields";
+import { IAPIRequestResult } from "../../interfaces/IAPIRequestResult";
 
 const SignInContainer = styled(Stack)(({ theme }) => ({
   padding: 20,
@@ -39,7 +40,9 @@ export default function SignIn() {
   const [amountOfQuestionnaires, setAmountOfQuestionnaires] = useState<
     number | undefined
   >();
-  const [signInResult, setSignInResult] = useState<string | boolean>();
+  const [signInResult, setSignInResult] = useState<
+  IAPIRequestResult | undefined
+>();
 
   const navigate = useNavigate();
 
@@ -68,7 +71,7 @@ export default function SignIn() {
 
   const onSubmit = (data: any) => {
     const result = user.login(data?.phone, data?.password);
-    if (result === true) navigate("/personal");
+    if (result.success === true) navigate("/personal");
     else setSignInResult(result);
   };
 
@@ -98,7 +101,7 @@ export default function SignIn() {
         >
           <AuthPhoneField control={control} errors={errors} />
           <AuthPasswordFields control={control} errors={errors} />
-          <Typography>{signInResult}</Typography>
+          <Typography>{signInResult?.errorMessage}</Typography>
           <Button type="submit" fullWidth variant="contained">
             Войти
           </Button>

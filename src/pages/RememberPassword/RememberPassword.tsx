@@ -10,9 +10,12 @@ import { StyledCard } from "../../components/Styled/StyledCard/StyledCard";
 import { StyledAuthContainer } from "../../components/Styled/StyledAuthContainer/StyledAuthContainer";
 import { AuthFormHeadline } from "../../components/FormComponents/AuthFormHeadline/AuthFormHeadline";
 import { AuthPhoneField } from "../../components/FormComponents/FormFields/AuthPhoneField/AuthPhoneField";
+import { IAPIRequestResult } from "../../interfaces/IAPIRequestResult";
 
 export default function RememberPassword() {
-  const [rememberedPassword, setRememberedPassword] = useState("");
+  const [rememberedPassword, setRememberedPassword] = useState<
+    IAPIRequestResult | undefined
+  >();
   const navigate = useNavigate();
 
   const {
@@ -49,9 +52,14 @@ export default function RememberPassword() {
             sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           >
             <AuthPhoneField control={control} errors={errors} />
-            {rememberedPassword && (
+            {rememberedPassword?.success && (
               <Typography variant="subtitle1" gutterBottom>
-                Ваш пароль: {rememberedPassword}
+                Ваш пароль: {rememberedPassword?.result}
+              </Typography>
+            )}
+            {rememberedPassword?.success === false && (
+              <Typography sx={{color: 'red'}} variant="subtitle1" gutterBottom>
+                Ошибка: {rememberedPassword?.errorMessage}
               </Typography>
             )}
             <Button type="submit" fullWidth variant="contained">

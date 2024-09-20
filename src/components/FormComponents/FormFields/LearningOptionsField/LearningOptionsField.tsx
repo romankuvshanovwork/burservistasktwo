@@ -3,7 +3,7 @@ import { DragAndDropSortableListField } from "../../CustomReusableFormFields/Dra
 import { LEARNING_OPTIONS } from "../../../../constants/learningOptions";
 
 export function LearningOptionsField({
-  // TODO: Спросить как здесь улучшить?
+  // ВОПРОС: Спросить как здесь улучшить?
   control,
   setValue,
 }: {

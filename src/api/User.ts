@@ -1,3 +1,4 @@
+import { IAPIRequestResult } from "../interfaces/IAPIRequestResult";
 import { IUser } from "../interfaces/IUser";
 
 // TODO: Переписать покрасивее и предусмотреть крайние случаи. Возращать объект: {success, result, errorMessage}
@@ -5,15 +6,15 @@ export const User: {
   isLogedIn: () => boolean;
   currentUser: () => IUser;
   amountOfRegisteredUsers: number;
-  login: (phone: string, password: string) => boolean | string;
+  login: (phone: string, password: string) => IAPIRequestResult;
   register: (
     phone: string,
     password: string,
     fio: string,
     gender: string
-  ) => boolean | string;
-  rememberPassword: (phone: string) => string;
-  logout: () => void;
+  ) => IAPIRequestResult;
+  rememberPassword: (phone: string) => IAPIRequestResult;
+  logout: () => IAPIRequestResult;
 } = {
   isLogedIn: () => !!localStorage.getItem("currentUser"),
   currentUser: () =>
@@ -30,13 +31,21 @@ export const User: {
 
     const user = users?.find((user: IUser) => user?.phone === phone);
     if (!user) {
-      return "Нет такого пользователя";
+      return {
+        success: false,
+        result: null,
+        errorMessage: "Нет такого пользователя",
+      };
     } else {
       if (user?.password === password) {
         localStorage.setItem("currentUser", JSON.stringify(user));
-        return true;
+        return { success: true, result: null, errorMessage: null };
       } else {
-        return "Неверный пароль";
+        return {
+          success: false,
+          result: null,
+          errorMessage: "Неверный пароль",
+        };
       }
     }
   },
@@ -52,7 +61,12 @@ export const User: {
     const user = users?.find((user: IUser) => user?.phone === phone);
 
     if (user) {
-      return "Пользователь с таким номером телефона уже зарегистрирован. Если вы не помните пароль, то попробуйте его восстановить";
+      return {
+        success: false,
+        result: null,
+        errorMessage:
+          "Пользователь с таким номером телефона уже зарегистрирован. Если вы не помните пароль, то попробуйте его восстановить",
+      };
     } else {
       localStorage.setItem(
         "users",
@@ -68,13 +82,20 @@ export const User: {
     const users = !!localStorage.getItem("users")
       ? JSON.parse(localStorage.getItem("users") || "{}")
       : [];
+    const user = users?.find((user: IUser) => user?.phone === phone);
 
-    return (
-      users?.find((user: IUser) => user?.phone === phone)?.password ||
-      "Нет такого пользователя"
-    );
+    if (user) {
+      return { success: true, result: user?.password, errorMessage: null };
+    } else {
+      return {
+        success: false,
+        result: null,
+        errorMessage: "Нет такого пользователя",
+      };
+    }
   },
   logout: function () {
     localStorage.removeItem("currentUser");
+    return { success: true, result: null, errorMessage: null };
   },
 };

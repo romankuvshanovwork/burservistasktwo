@@ -13,9 +13,12 @@ import { AuthPhoneField } from "../../components/FormComponents/FormFields/AuthP
 import { AuthPasswordFields } from "../../components/FormComponents/FormFields/AuthPasswordFields/AuthPasswordFields";
 import { AuthFIOField } from "../../components/FormComponents/FormFields/AuthFIOFIeld/AuthFIOFIeld";
 import { AuthGenderField } from "../../components/FormComponents/FormFields/AuthGenderField/AuthGenderField";
+import { IAPIRequestResult } from "../../interfaces/IAPIRequestResult";
 
 export default function SignUp() {
-  const [signUpResult, setSignUpResult] = useState<string | boolean>();
+  const [signUpResult, setSignUpResult] = useState<
+  IAPIRequestResult | undefined
+>();
   const navigate = useNavigate();
 
   const {
@@ -38,7 +41,7 @@ export default function SignUp() {
       data?.fio,
       data?.gender
     );
-    if (result === true) navigate("/personal");
+    if (result.success === true) navigate("/personal");
     else setSignUpResult(result);
   };
 
@@ -62,7 +65,7 @@ export default function SignUp() {
             <AuthFIOField control={control} errors={errors} />
             <AuthGenderField control={control} />
             <AuthPasswordFields control={control} errors={errors} />
-            <Typography>{signUpResult}</Typography>
+            <Typography>{signUpResult?.errorMessage}</Typography>
             <Button type="submit" fullWidth variant="contained">
               Зарегистрироваться
             </Button>

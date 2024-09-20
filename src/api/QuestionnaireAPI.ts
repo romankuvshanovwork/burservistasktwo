@@ -1,9 +1,13 @@
+import { IAPIRequestResult } from "../interfaces/IAPIRequestResult";
 import { IUser } from "../interfaces/IUser";
 
 // TODO: Переписать покрасивее и предусмотреть крайние случаи. Возращать объект: {success, result, errorMessage}
 export const QuestionnaireAPI: {
   amountOfQuestionnaires: number;
-  addNewQuestionnaire: (user: IUser, newQuestionnaire: any) => void;
+  addNewQuestionnaire: (
+    user: IUser,
+    newQuestionnaire: any
+  ) => IAPIRequestResult;
 } = {
   amountOfQuestionnaires: !!localStorage.getItem("questionnaires")
     ? JSON.parse(localStorage.getItem("questionnaires") || "{}")?.length
@@ -20,5 +24,6 @@ export const QuestionnaireAPI: {
         { phone: user.phone, ...newQuestionnaire },
       ])
     );
+    return { success: true, result: null, errorMessage: null };
   },
 };
