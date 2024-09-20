@@ -3,7 +3,6 @@ import {
   FieldErrors,
   FieldValues,
   UseFormSetValue,
-  UseFormTrigger,
 } from "react-hook-form";
 import Typography from "@mui/material/Typography/Typography";
 import { FirstNameField } from "../../FormComponents/FormFields/FirstNameField/FirstNameField";
@@ -23,13 +22,11 @@ export function GirlsQuestionnaire({
   errors,
   setValue,
   onSubmit,
-  trigger
 }: {
   control: Control;
   errors: FieldErrors;
   setValue: UseFormSetValue<FieldValues>;
   onSubmit: FormEventHandler;
-  trigger: UseFormTrigger<FieldValues>;
 }) {
   return (
     <Box sx={{ maxWidth: "500px", marginTop: "50px", marginX: "auto" }}>
@@ -43,10 +40,9 @@ export function GirlsQuestionnaire({
           control={control}
           errors={errors}
           setValue={setValue}
-          trigger={trigger}
         />
         <LearningOptionsField control={control} setValue={setValue} />
-        <SignField control={control} errors={errors} setValue={setValue} trigger={trigger} />
+        <SignField control={control} errors={errors} setValue={setValue} />
         <AgreementField
           control={control}
           errors={errors}

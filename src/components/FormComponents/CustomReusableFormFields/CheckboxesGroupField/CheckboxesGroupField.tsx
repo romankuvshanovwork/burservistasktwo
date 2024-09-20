@@ -4,7 +4,6 @@ import {
   Controller,
   UseFormSetValue,
   FieldValues,
-  UseFormTrigger,
 } from "react-hook-form";
 import FormControl from "@mui/material/FormControl/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
@@ -22,7 +21,6 @@ export function CheckboxesGroupField({
   validateErrorMessage,
   name,
   setValue,
-  trigger,
 }: {
   control: Control;
   errors: FieldErrors;
@@ -31,7 +29,6 @@ export function CheckboxesGroupField({
   validateErrorMessage: string;
   name: string;
   setValue: UseFormSetValue<FieldValues>;
-  trigger: UseFormTrigger<FieldValues>;
 }) {
   const [optionsState, setOptionsState] = useState(
     options.map((option: any) => ({ ...option, state: false }))

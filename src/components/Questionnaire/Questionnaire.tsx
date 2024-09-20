@@ -21,11 +21,6 @@ export default function Questionnaire() {
   const user = User;
   const userGender = user.currentUser().gender;
 
-  //   useEffect(() => {
-  //     const isTouched = getFieldState('favoriteSport').isTouched;
-  //     if (isTouched) trigger("favoriteSport");
-  //   }, [trigger, sportsState, getFieldState]);
-
   const onSubmit = (data: any) => {
     if (user.isLogedIn() && user.currentUser()) {
       questionnaire.addNewQuestionnaire(user.currentUser(), {
@@ -44,7 +39,6 @@ export default function Questionnaire() {
         errors={errors}
         setValue={setValue}
         onSubmit={handleSubmit(onSubmit)}
-        trigger={trigger}
       />
     );
 
@@ -55,7 +49,6 @@ export default function Questionnaire() {
         errors={errors}
         setValue={setValue}
         onSubmit={handleSubmit(onSubmit)}
-        trigger={trigger}
       />
     );
 
