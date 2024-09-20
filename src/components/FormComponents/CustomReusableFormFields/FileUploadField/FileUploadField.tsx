@@ -69,8 +69,8 @@ export function FileUploadField({
               accept={accept}
               onChange={(event) => {
                 setFileName(event.target.files?.[0]?.name || "");
-                setValue(name, event.target.files?.[0]?.name || "");
-                trigger(name);
+                setValue(name, event.target.files?.[0]?.name || "", {shouldValidate: true});
+                //trigger(name);
               }}
             />
           </Button>

@@ -43,6 +43,7 @@ export function BoysQuestionnaire({
           control={control}
           errors={errors}
           setValue={setValue}
+          trigger={trigger}
         />
         <FreeTimeActivitiesField control={control} setValue={setValue} />
         <SignField control={control} errors={errors} setValue={setValue} trigger={trigger} />

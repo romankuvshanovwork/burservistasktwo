@@ -4,6 +4,7 @@ import {
   Controller,
   UseFormSetValue,
   FieldValues,
+  UseFormTrigger,
 } from "react-hook-form";
 import FormControl from "@mui/material/FormControl/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
@@ -21,6 +22,7 @@ export function CheckboxesGroupField({
   validateErrorMessage,
   name,
   setValue,
+  trigger,
 }: {
   control: Control;
   errors: FieldErrors;
@@ -29,38 +31,34 @@ export function CheckboxesGroupField({
   validateErrorMessage: string;
   name: string;
   setValue: UseFormSetValue<FieldValues>;
+  trigger: UseFormTrigger<FieldValues>;
 }) {
   const [optionsState, setOptionsState] = useState(
     options.map((option: any) => ({ ...option, state: false }))
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOptionsState(
-      optionsState.map((option: any) =>
-        option.value === event.target.name
-          ? { ...option, state: event.target.checked }
-          : option
-      )
+    const nextOptions = optionsState.map((option: any) =>
+      option.value === event.target.name
+        ? { ...option, state: event.target.checked }
+        : option
     );
 
-    setValue(
-      name,
-      optionsState.map((option: any) =>
-        option.value === event.target.name
-          ? { ...option, state: event.target.checked }
-          : option
-      )
-    );
+    setOptionsState(nextOptions);
+    setValue(name, nextOptions, { shouldValidate: true });
   };
 
   return (
     <Controller
       name={name}
       control={control}
+      defaultValue={options.map((option: any) => ({ ...option, state: false }))}
       rules={{
-        validate: () =>
-          optionsState.some((option: any) => option.state) ||
-          validateErrorMessage,
+        validate: (value) => {
+          return (
+            value.some((option: any) => option.state) || validateErrorMessage
+          );
+        },
       }}
       render={({ field }) => (
         <FormControl margin="dense" fullWidth error={!!errors?.[name]}>

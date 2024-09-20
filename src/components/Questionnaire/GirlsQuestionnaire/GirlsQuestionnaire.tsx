@@ -43,6 +43,7 @@ export function GirlsQuestionnaire({
           control={control}
           errors={errors}
           setValue={setValue}
+          trigger={trigger}
         />
         <LearningOptionsField control={control} setValue={setValue} />
         <SignField control={control} errors={errors} setValue={setValue} trigger={trigger} />
