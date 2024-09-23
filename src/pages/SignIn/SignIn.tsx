@@ -101,7 +101,7 @@ export default function SignIn() {
         >
           <AuthPhoneField control={control} errors={errors} />
           <AuthPasswordFields control={control} errors={errors} />
-          <Typography>{signInResult?.errorMessage}</Typography>
+          <Typography sx={{color: 'red'}}>{signInResult?.errorMessage}</Typography>
           <Button type="submit" fullWidth variant="contained">
             Войти
           </Button>

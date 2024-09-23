@@ -64,7 +64,7 @@ export default function SignUp() {
             <AuthFIOField control={control} errors={errors} />
             <AuthGenderField control={control} />
             <AuthPasswordFields control={control} errors={errors} />
-            <Typography>{signUpResult?.errorMessage}</Typography>
+            <Typography sx={{color: 'red', textAlign: 'center'}}>{signUpResult?.errorMessage}</Typography>
             <Button type="submit" fullWidth variant="contained">
               Зарегистрироваться
             </Button>
