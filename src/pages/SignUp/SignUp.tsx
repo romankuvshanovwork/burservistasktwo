@@ -27,7 +27,6 @@ export default function SignUp() {
     formState: { errors },
   } = useForm();
 
-  //   TODO: Сделать через конструктор и new
   const user = User;
 
   useEffect(() => {

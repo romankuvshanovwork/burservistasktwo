@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 export default function Logout() {
-  //   TODO: Сделать через конструктор и new
   const user = User;
   const navigate = useNavigate();
 

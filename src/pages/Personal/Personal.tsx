@@ -10,7 +10,6 @@ import Grid from "@mui/material/Grid2";
 
 export default function Personal() {
   const navigate = useNavigate();
-  //   TODO: Сделать через конструктор и new
   const user = User;
 
   useEffect(() => {

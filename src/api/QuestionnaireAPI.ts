@@ -1,7 +1,6 @@
 import { IAPIRequestResult } from "../interfaces/IAPIRequestResult";
 import { IUser } from "../interfaces/IUser";
 
-// TODO: Переписать покрасивее и предусмотреть крайние случаи. Возращать объект: {success, result, errorMessage}
 export const QuestionnaireAPI: {
   amountOfQuestionnaires: number;
   addNewQuestionnaire: (
