@@ -11,8 +11,6 @@ export default function Questionnaire() {
   const {
     control,
     handleSubmit,
-    trigger,
-    getFieldState,
     setValue,
     formState: { errors },
   } = useForm();

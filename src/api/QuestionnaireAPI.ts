@@ -2,13 +2,13 @@ import { IAPIRequestResult } from "../interfaces/IAPIRequestResult";
 import { IUser } from "../interfaces/IUser";
 
 export const QuestionnaireAPI: {
-  amountOfQuestionnaires: number;
+  amountOfQuestionnaires: () => number;
   addNewQuestionnaire: (
     user: IUser,
     newQuestionnaire: any
   ) => IAPIRequestResult;
 } = {
-  amountOfQuestionnaires: !!localStorage.getItem("questionnaires")
+  amountOfQuestionnaires: () => !!localStorage.getItem("questionnaires")
     ? JSON.parse(localStorage.getItem("questionnaires") || "{}")?.length
     : 0,
   addNewQuestionnaire: function (user: IUser, newQuestionnaire: any) {

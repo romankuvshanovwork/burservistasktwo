@@ -4,7 +4,7 @@ import { IUser } from "../interfaces/IUser";
 export const User: {
   isLogedIn: () => boolean;
   currentUser: () => IUser;
-  amountOfRegisteredUsers: number;
+  amountOfRegisteredUsers: () => number;
   login: (phone: string, password: string) => IAPIRequestResult;
   register: (
     phone: string,
@@ -20,7 +20,7 @@ export const User: {
     !!localStorage.getItem("currentUser")
       ? JSON.parse(localStorage.getItem("currentUser") || "{}")
       : [],
-  amountOfRegisteredUsers: !!localStorage.getItem("users")
+  amountOfRegisteredUsers: () => !!localStorage.getItem("users")
     ? JSON.parse(localStorage.getItem("users") || "{}")?.length
     : 0,
   login: function (phone: string, password: string) {
@@ -74,7 +74,7 @@ export const User: {
           { phone: phone, password: password, fio: fio, gender: gender },
         ])
       );
-      return this.login(phone, password);
+      return User.login(phone, password);
     }
   },
   rememberPassword: function (phone: string) {

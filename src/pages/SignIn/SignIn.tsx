@@ -60,13 +60,13 @@ export default function SignIn() {
   }, [navigate, user]);
 
   useEffect(
-    () => setAmountOfRegisteredUsers(user.amountOfRegisteredUsers),
-    [user.amountOfRegisteredUsers]
+    () => setAmountOfRegisteredUsers(user.amountOfRegisteredUsers()),
+    [user]
   );
 
   useEffect(
-    () => setAmountOfQuestionnaires(questionnaire.amountOfQuestionnaires),
-    [questionnaire.amountOfQuestionnaires]
+    () => setAmountOfQuestionnaires(questionnaire.amountOfQuestionnaires()),
+    [questionnaire]
   );
 
   const onSubmit = (data: any) => {
