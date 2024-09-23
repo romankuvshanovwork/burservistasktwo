@@ -7,6 +7,7 @@ import Questionnaire from "../../components/Questionnaire/Questionnaire";
 import { useEffect } from "react";
 import Button from "@mui/material/Button/Button";
 import Grid from "@mui/material/Grid2";
+import Quiz from "../../components/Quiz/Quiz";
 
 export default function Personal() {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ export default function Personal() {
       </Grid>
       <Blog />
       <Questionnaire />
+      <Quiz />
     </Container>
   );
 }

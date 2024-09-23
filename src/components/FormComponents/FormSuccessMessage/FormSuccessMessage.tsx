@@ -3,8 +3,17 @@ import Typography from "@mui/material/Typography/Typography";
 
 export function FormSuccessMessage() {
   return (
-    <Box sx={{ maxWidth: "500px", marginTop: "50px", marginX: "auto" }}>
-      <Typography variant="h4">Форма успешно отправлена!</Typography>
+    <Box
+      sx={{
+        maxWidth: "500px",
+        marginTop: "50px",
+        marginX: "auto",
+        textAlign: "center",
+      }}
+    >
+      <Typography sx={{ textAlign: "center" }} variant="h4">
+        Форма успешно отправлена!
+      </Typography>
     </Box>
   );
 }
