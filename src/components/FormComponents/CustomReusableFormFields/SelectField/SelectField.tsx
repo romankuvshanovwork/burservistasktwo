@@ -1,6 +1,7 @@
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import TextField from "@mui/material/TextField/TextField";
 import { Control, FieldErrors, Controller } from "react-hook-form";
+import { ISelectFieldOption } from "../../../../interfaces/ISelectFieldOption";
 
 export function SelectField({
   control,
@@ -14,7 +15,7 @@ export function SelectField({
 }: {
   control: Control;
   errors: FieldErrors;
-  options: any;
+  options: ISelectFieldOption[];
   label: string;
   helperText: string;
   errorRequiredText: string;
@@ -40,7 +41,7 @@ export function SelectField({
             errors?.[name] ? (errors?.[name]?.message as string) : helperText
           }
         >
-          {options.map((option: any) => (
+          {options.map((option: ISelectFieldOption) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>

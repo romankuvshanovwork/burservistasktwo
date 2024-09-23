@@ -10,10 +10,6 @@ const style = {
   width: "auto",
 };
 
-export interface ContainerState {
-  cards: any[];
-}
-
 type Props = { cards: CardData[]; onCardsChange: Function };
 type CardData = { id: number; text: string };
 

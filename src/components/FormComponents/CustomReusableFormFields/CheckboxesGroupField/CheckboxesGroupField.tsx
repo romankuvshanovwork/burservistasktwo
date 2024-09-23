@@ -12,6 +12,7 @@ import FormLabel from "@mui/material/FormLabel/FormLabel";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import Checkbox from "@mui/material/Checkbox/Checkbox";
 import { useState } from "react";
+import { ICheckboxesGroupFieldOption } from "../../../../interfaces/ICheckboxesGroupFieldOption";
 
 export function CheckboxesGroupField({
   control,
@@ -24,18 +25,18 @@ export function CheckboxesGroupField({
 }: {
   control: Control;
   errors: FieldErrors;
-  options: any;
+  options: ICheckboxesGroupFieldOption[];
   label: string;
   validateErrorMessage: string;
   name: string;
   setValue: UseFormSetValue<FieldValues>;
 }) {
   const [optionsState, setOptionsState] = useState(
-    options.map((option: any) => ({ ...option, state: false }))
+    options.map((option) => ({ ...option, state: false }))
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const nextOptions = optionsState.map((option: any) =>
+    const nextOptions = optionsState.map((option) =>
       option.value === event.target.name
         ? { ...option, state: event.target.checked }
         : option
@@ -49,7 +50,7 @@ export function CheckboxesGroupField({
     <Controller
       name={name}
       control={control}
-      defaultValue={options.map((option: any) => ({ ...option, state: false }))}
+      defaultValue={options.map((option) => ({ ...option, state: false }))}
       rules={{
         validate: (value) => {
           return (
@@ -61,7 +62,7 @@ export function CheckboxesGroupField({
         <FormControl margin="dense" fullWidth error={!!errors?.[name]}>
           <FormLabel component="legend">{label}</FormLabel>
           <FormGroup>
-            {optionsState.map((option: any) => (
+            {optionsState.map((option) => (
               <FormControlLabel
                 key={option.value}
                 control={

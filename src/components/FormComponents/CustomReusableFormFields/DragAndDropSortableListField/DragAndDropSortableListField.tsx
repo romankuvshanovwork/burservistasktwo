@@ -8,6 +8,7 @@ import Box from "@mui/material/Box/Box";
 import FormLabel from "@mui/material/FormLabel/FormLabel";
 import { DragAndDropSortableListList } from "./DragAndDropSortableListList/DragAndDropSortableListList";
 import { useEffect, useState } from "react";
+import { IDragAndDropSortableListFieldOption } from "../../../../interfaces/IDragAndDropSortableListFieldOption";
 
 export function DragAndDropSortableListField({
   control,
@@ -19,7 +20,7 @@ export function DragAndDropSortableListField({
 }: {
   control: Control;
   setValue: UseFormSetValue<FieldValues>;
-  options: any;
+  options: IDragAndDropSortableListFieldOption[];
   label: string;
   labelId: string;
   name: string;

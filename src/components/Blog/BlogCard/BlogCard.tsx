@@ -5,6 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { BlogAuthor } from "../BlogAuthor/BlogAuthor";
+import { IBlogCardData } from "../../../interfaces/IBlogCardData";
 
 const SyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -42,7 +43,7 @@ const StyledTypography = styled(Typography)({
   textOverflow: "ellipsis",
 });
 
-export function BlogCard({ cardData }: { cardData: any }) {
+export function BlogCard({ cardData }: { cardData: IBlogCardData }) {
   const [focused, setFocused] = useState<boolean>(false);
 
   const handleFocus = () => {
