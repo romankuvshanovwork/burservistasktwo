@@ -1,13 +1,13 @@
-import Box from "@mui/material/Box";
-import { QuizHeadline } from "./QuizHeadline/QuizHeadline";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { QUIZ_DATA } from "../../constants/quizData";
-import { CheckboxesGroupField } from "../FormComponents/CustomReusableFormFields/CheckboxesGroupField/CheckboxesGroupField";
 import { FormSubmitButton } from "../FormComponents/FormSubmitButton/FormSubmitButton";
 import { QuizFormSuccessMessage } from "../FormComponents/QuizFormSuccessMessage/QuizFormSuccessMessage";
 import { QuizRadioFormField } from "../FormComponents/FormFields/QuizRadioFormField/QuizRadioFormField";
+import { QuizLayout } from "./QuizLayout/QuizLayout";
+import { QuizCheckboxesGroupFormField } from "../FormComponents/FormFields/QuizCheckboxesGroupFormField/QuizCheckboxesGroupFormField";
 
+// ВОПРОС: Оставить тут или вынести? Если выносить, то в utils, например?
 function countPoints(data: any) {
   let points = 0;
   Object.entries(data).forEach(([key, answer], index) => {
@@ -20,9 +20,11 @@ function countPoints(data: any) {
       questionType === "checkbox" &&
       Array.isArray(answer) &&
       answer
-        .filter((item: any) => item.state === true)
-        .map((item: any) => item.value)
-        .every((item: any) => QUIZ_DATA[index].rightAnswer.includes(item))
+        .filter((answerOption: any) => answerOption.state === true)
+        .map((answerOption: any) => answerOption.value)
+        .every((answerOption: any) =>
+          QUIZ_DATA[index].rightAnswer.includes(answerOption)
+        )
     ) {
       points += QUIZ_DATA[index].points;
     }
@@ -53,24 +55,18 @@ export default function Quiz() {
     setFormSent(true);
   };
 
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 0,
-        maxWidth: "500px",
-        marginTop: "50px",
-        marginX: "auto",
-      }}
-    >
-      <QuizHeadline headline="Викторина" />
-      {formSent ? (
+  if (formSent) {
+    return (
+      <QuizLayout>
         <QuizFormSuccessMessage
           amountOfPoints={amountOfPoints}
           maxAmountOfPoints={maxAmountOfPoints}
         />
-      ) : (
+      </QuizLayout>
+    );
+  } else {
+    return (
+      <QuizLayout>
         <form onSubmit={handleSubmit(onSubmit)}>
           {QUIZ_DATA.map((quiz_element) =>
             quiz_element.type === "radio" ? (
@@ -80,24 +76,17 @@ export default function Quiz() {
                 quiz_element={quiz_element}
               />
             ) : (
-              <CheckboxesGroupField
+              <QuizCheckboxesGroupFormField
                 control={control}
                 errors={errors}
-                options={quiz_element.options.map((option) => ({
-                  value: option,
-                  label: option,
-                }))}
-                label={quiz_element.question}
-                validateErrorMessage={"Ответ на этот вопрос обязателен"}
-                name={quiz_element.id.toFixed()}
+                quiz_element={quiz_element}
                 setValue={setValue}
-                key={quiz_element.id}
               />
             )
           )}
           <FormSubmitButton label="Проверить" />
         </form>
-      )}
-    </Box>
-  );
+      </QuizLayout>
+    );
+  }
 }

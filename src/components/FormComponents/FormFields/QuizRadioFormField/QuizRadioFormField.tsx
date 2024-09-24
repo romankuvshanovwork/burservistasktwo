@@ -5,6 +5,7 @@ import FormLabel from "@mui/material/FormLabel/FormLabel";
 import Radio from "@mui/material/Radio/Radio";
 import RadioGroup from "@mui/material/RadioGroup/RadioGroup";
 import { Control, Controller, FieldErrors } from "react-hook-form";
+import { ONE_RIGHT_ANSWER } from "../../../../constants/quizQuestionsEndings";
 
 export function QuizRadioFormField({
   control,
@@ -30,7 +31,7 @@ export function QuizRadioFormField({
           error={!!errors.favoriteColor}
         >
           <FormLabel id="favorite-color-radio-buttons-group-label">
-            {quiz_element.question}
+            {`${quiz_element.question}* (${ONE_RIGHT_ANSWER})`}
           </FormLabel>
           <RadioGroup
             {...field}
