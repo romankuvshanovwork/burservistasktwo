@@ -6,6 +6,8 @@ import { QuizFormSuccessMessage } from "../FormComponents/QuizFormSuccessMessage
 import { QuizRadioFormField } from "../FormComponents/FormFields/QuizRadioFormField/QuizRadioFormField";
 import { QuizLayout } from "./QuizLayout/QuizLayout";
 import { QuizCheckboxesGroupFormField } from "../FormComponents/FormFields/QuizCheckboxesGroupFormField/QuizCheckboxesGroupFormField";
+import QuizResultsStepper from "./QuizResultsStepper/QuizResultsStepper";
+import Box from "@mui/material/Box/Box";
 
 // ВОПРОС: Оставить тут или вынести? Если выносить, то в utils, например?
 function countPoints(data: any) {
@@ -41,6 +43,7 @@ const maxAmountOfPoints = QUIZ_DATA.reduce(
 export default function Quiz() {
   const [formSent, setFormSent] = useState(false);
   const [amountOfPoints, setAmpontOfPoints] = useState<number>(0);
+  const [results, setResults] = useState();
 
   const {
     control,
@@ -53,11 +56,14 @@ export default function Quiz() {
     const points = countPoints(data);
     setAmpontOfPoints(points);
     setFormSent(true);
+    setResults(data);
+    console.log(data);
   };
 
   if (formSent) {
     return (
       <QuizLayout>
+        <QuizResultsStepper results={results} />
         <QuizFormSuccessMessage
           amountOfPoints={amountOfPoints}
           maxAmountOfPoints={maxAmountOfPoints}
@@ -67,25 +73,36 @@ export default function Quiz() {
   } else {
     return (
       <QuizLayout>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {QUIZ_DATA.map((quiz_element) =>
-            quiz_element.type === "radio" ? (
-              <QuizRadioFormField
-                control={control}
-                errors={errors}
-                quiz_element={quiz_element}
-              />
-            ) : (
-              <QuizCheckboxesGroupFormField
-                control={control}
-                errors={errors}
-                quiz_element={quiz_element}
-                setValue={setValue}
-              />
-            )
-          )}
-          <FormSubmitButton label="Проверить" />
-        </form>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 0,
+            maxWidth: "500px",
+            marginTop: "0px",
+            marginX: "auto",
+          }}
+        >
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {QUIZ_DATA.map((quiz_element) =>
+              quiz_element.type === "radio" ? (
+                <QuizRadioFormField
+                  control={control}
+                  errors={errors}
+                  quiz_element={quiz_element}
+                />
+              ) : (
+                <QuizCheckboxesGroupFormField
+                  control={control}
+                  errors={errors}
+                  quiz_element={quiz_element}
+                  setValue={setValue}
+                />
+              )
+            )}
+            <FormSubmitButton label="Проверить" />
+          </form>
+        </Box>
       </QuizLayout>
     );
   }

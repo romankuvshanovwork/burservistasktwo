@@ -8,7 +8,7 @@ export function QuizFormSuccessMessage({
   maxAmountOfPoints: number;
 }) {
   return (
-    <Typography>
+    <Typography sx={{ textAlign: "center" }}>
       Ваш результат: {amountOfPoints} балла (баллов) из {maxAmountOfPoints}
     </Typography>
   );
