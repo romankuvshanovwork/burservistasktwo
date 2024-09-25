@@ -8,34 +8,37 @@ import { QuizLayout } from "./QuizLayout/QuizLayout";
 import { QuizCheckboxesGroupFormField } from "../FormComponents/FormFields/QuizCheckboxesGroupFormField/QuizCheckboxesGroupFormField";
 import QuizResultsStepper from "./QuizResultsStepper/QuizResultsStepper";
 import Box from "@mui/material/Box/Box";
+import { QuizLearnParagraphSection } from "./QuizLearnParagraphSection/QuizLearnParagraphSection";
+import Button from "@mui/material/Button/Button";
 
 // ВОПРОС: Оставить тут или вынести? Если выносить, то в utils, например?
 function countPoints(data: any) {
   let points = 0;
   Object.entries(data).forEach(([key, answer], index) => {
-    const questionType = QUIZ_DATA[index].type;
+    const questionType = QUIZ_DATA.questions[index].type;
 
-    if (questionType === "radio" && answer === QUIZ_DATA[index].rightAnswer) {
-      points += QUIZ_DATA[index].points;
-    }
     if (
-      questionType === "checkbox" &&
-      Array.isArray(answer) &&
-      answer
+      questionType === "radio" &&
+      answer === QUIZ_DATA.questions[index].rightAnswer
+    ) {
+      points += QUIZ_DATA.questions[index].points;
+    }
+    if (questionType === "checkbox" && Array.isArray(answer)) {
+      points += answer
         .filter((answerOption: any) => answerOption.state === true)
         .map((answerOption: any) => answerOption.value)
-        .every((answerOption: any) =>
-          QUIZ_DATA[index].rightAnswer.includes(answerOption)
-        )
-    ) {
-      points += QUIZ_DATA[index].points;
+        .reduce((accumulator, answerOption) => {
+          if (QUIZ_DATA.questions[index].rightAnswer.includes(answerOption))
+            return accumulator + 1;
+          else return accumulator;
+        }, 0);
     }
   });
 
   return points;
 }
 
-const maxAmountOfPoints = QUIZ_DATA.reduce(
+const maxAmountOfPoints = QUIZ_DATA.questions.reduce(
   (accumulator, currentValue) => accumulator + currentValue.points,
   0
 );
@@ -50,6 +53,7 @@ export default function Quiz() {
     handleSubmit,
     setValue,
     formState: { errors },
+    reset,
   } = useForm();
 
   const onSubmit = (data: any) => {
@@ -63,7 +67,26 @@ export default function Quiz() {
   if (formSent) {
     return (
       <QuizLayout>
-        <QuizResultsStepper results={results} />
+        <QuizResultsStepper userAnswers={results} />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "15px",
+          }}
+        >
+          <Button
+            onClick={() => {
+              setAmpontOfPoints(0);
+              setFormSent(false);
+              setResults(undefined);
+              reset();
+            }}
+            variant="outlined"
+          >
+            Вернуться к изучению
+          </Button>
+        </Box>
         <QuizFormSuccessMessage
           amountOfPoints={amountOfPoints}
           maxAmountOfPoints={maxAmountOfPoints}
@@ -83,8 +106,9 @@ export default function Quiz() {
             marginX: "auto",
           }}
         >
+          <QuizLearnParagraphSection paragraph={QUIZ_DATA.paragraph} />
           <form onSubmit={handleSubmit(onSubmit)}>
-            {QUIZ_DATA.map((quiz_element) =>
+            {QUIZ_DATA.questions.map((quiz_element) =>
               quiz_element.type === "radio" ? (
                 <QuizRadioFormField
                   control={control}
