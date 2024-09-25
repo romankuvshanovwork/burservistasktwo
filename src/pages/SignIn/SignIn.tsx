@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { User } from "../../api/User";
-import { QuestionnaireAPI } from "../../api/QuestionnaireAPI";
+import { useQuestionnaireStore } from "../../api/QuestionnaireAPI";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { StyledCard } from "../../components/Styled/StyledCard/StyledCard";
@@ -37,12 +37,9 @@ export default function SignIn() {
   const [amountOfRegisteredUsers, setAmountOfRegisteredUsers] = useState<
     number | undefined
   >();
-  const [amountOfQuestionnaires, setAmountOfQuestionnaires] = useState<
-    number | undefined
-  >();
   const [signInResult, setSignInResult] = useState<
-  IAPIRequestResult | undefined
->();
+    IAPIRequestResult | undefined
+  >();
 
   const navigate = useNavigate();
 
@@ -53,7 +50,7 @@ export default function SignIn() {
   } = useForm();
 
   const user = User;
-  const questionnaire = QuestionnaireAPI;
+  const { amountOfQuestionnaires } = useQuestionnaireStore();
 
   useEffect(() => {
     if (user.isLogedIn()) navigate("/personal");
@@ -62,11 +59,6 @@ export default function SignIn() {
   useEffect(
     () => setAmountOfRegisteredUsers(user.amountOfRegisteredUsers()),
     [user]
-  );
-
-  useEffect(
-    () => setAmountOfQuestionnaires(questionnaire.amountOfQuestionnaires()),
-    [questionnaire]
   );
 
   const onSubmit = (data: any) => {
@@ -85,7 +77,7 @@ export default function SignIn() {
             {amountOfRegisteredUsers}
           </Typography>
           <Typography variant="subtitle1" gutterBottom>
-            Количество анкет: {amountOfQuestionnaires}
+            Количество анкет: {amountOfQuestionnaires()}
           </Typography>
         </Box>
         <Box
@@ -101,7 +93,9 @@ export default function SignIn() {
         >
           <AuthPhoneField control={control} errors={errors} />
           <AuthPasswordFields control={control} errors={errors} />
-          <Typography sx={{color: 'red'}}>{signInResult?.errorMessage}</Typography>
+          <Typography sx={{ color: "red" }}>
+            {signInResult?.errorMessage}
+          </Typography>
           <Button type="submit" fullWidth variant="contained">
             Войти
           </Button>

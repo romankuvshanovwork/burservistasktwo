@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { User } from "../../api/User";
-import { QuestionnaireAPI } from "../../api/QuestionnaireAPI";
+import { useQuestionnaireStore } from "../../api/QuestionnaireAPI";
 import { FormSuccessMessage } from "../FormComponents/FormSuccessMessage/FormSuccessMessage";
 import { BoysQuestionnaire } from "./BoysQuestionnaire/BoysQuestionnaire";
 import { GirlsQuestionnaire } from "./GirlsQuestionnaire/GirlsQuestionnaire";
@@ -15,13 +15,14 @@ export default function Questionnaire() {
     formState: { errors },
   } = useForm();
 
-  const questionnaire = QuestionnaireAPI;
+  const { addNewQuestionnaire } = useQuestionnaireStore();
+
   const user = User;
   const userGender = user.currentUser().gender;
 
   const onSubmit = (data: any) => {
     if (user.isLogedIn() && user.currentUser()) {
-      questionnaire.addNewQuestionnaire(user.currentUser(), {
+      addNewQuestionnaire(user.currentUser(), {
         ...data,
       });
       setFormSent(true);
