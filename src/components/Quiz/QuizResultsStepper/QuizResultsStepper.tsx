@@ -4,25 +4,12 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { QUIZ_DATA } from "../../../constants/quizData";
-import { red, green } from "@mui/material/colors";
-import styled from "@mui/material/styles/styled";
 import { Correctness } from "../../../enums/Correctness";
-
-const SquareStepIcon = styled("div")<{ correct: boolean }>(({ correct }) => ({
-  width: 30,
-  height: 30,
-  borderRadius: 4,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundColor: correct ? green[600] : red[600],
-  color: "white",
-  fontSize: "16px",
-}));
+import { StyledSquareStepIcon } from "../../Styled/StyledSquareStepIcon/StyledSquareStepIcon";
 
 function transformAnswersToResults(data: any) {
   const results: { correct: Correctness; points: number, maxPoints: number }[] = [];
-  Object.entries(data).forEach(([key, answer], index) => {
+  Object.values(data).forEach((answer, index) => {
     const questionType = QUIZ_DATA.questions[index].type;
 
     if (
@@ -76,9 +63,9 @@ export default function QuizResultsStepper({
             <Step key={index}>
               <StepLabel
                 StepIconComponent={() => (
-                  <SquareStepIcon correct={result.correct === Correctness.Correct}>
+                  <StyledSquareStepIcon correct={result.correct === Correctness.Correct}>
                     {index + 1}
-                  </SquareStepIcon>
+                  </StyledSquareStepIcon>
                 )}
               >
                 Вопрос {index + 1}: <br></br>

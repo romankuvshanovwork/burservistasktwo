@@ -16,7 +16,7 @@ import { useQuizStore } from "../../api/QuizAPI";
 // ВОПРОС: Оставить тут или вынести? Если выносить, то в utils, например?
 function countPoints(data: any) {
   let points = 0;
-  Object.entries(data).forEach(([key, answer], index) => {
+  Object.values(data).forEach((answer, index) => {
     const questionType = QUIZ_DATA.questions[index].type;
 
     if (
@@ -47,8 +47,7 @@ const maxAmountOfPoints = QUIZ_DATA.questions.reduce(
 
 export default function Quiz() {
   const [formSent, setFormSent] = useState(false);
-  const [amountOfPoints, setAmpontOfPoints] = useState<number>(0);
-  const [results, setResults] = useState();
+  const [userAnswers, setUserAnswers] = useState();
 
   const { addNewQuiz } = useQuizStore();
   const user = User;
@@ -62,18 +61,21 @@ export default function Quiz() {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    const points = countPoints(data);
-    setAmpontOfPoints(points);
     setFormSent(true);
-    setResults(data);
-    console.log(data);
+    setUserAnswers(data);
     addNewQuiz(user.currentUser(), data);
   };
+
+  function resetFormAndState() {
+    setFormSent(false);
+    setUserAnswers(undefined);
+    reset();
+  }
 
   if (formSent) {
     return (
       <QuizLayout>
-        <QuizResultsStepper userAnswers={results} />
+        <QuizResultsStepper userAnswers={userAnswers} />
         <Box
           sx={{
             display: "flex",
@@ -81,20 +83,12 @@ export default function Quiz() {
             marginBottom: "15px",
           }}
         >
-          <Button
-            onClick={() => {
-              setAmpontOfPoints(0);
-              setFormSent(false);
-              setResults(undefined);
-              reset();
-            }}
-            variant="outlined"
-          >
+          <Button onClick={resetFormAndState} variant="outlined">
             Вернуться к изучению
           </Button>
         </Box>
         <QuizFormSuccessMessage
-          amountOfPoints={amountOfPoints}
+          amountOfPoints={countPoints(userAnswers)}
           maxAmountOfPoints={maxAmountOfPoints}
         />
       </QuizLayout>
