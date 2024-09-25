@@ -10,6 +10,8 @@ import QuizResultsStepper from "./QuizResultsStepper/QuizResultsStepper";
 import Box from "@mui/material/Box/Box";
 import { QuizLearnParagraphSection } from "./QuizLearnParagraphSection/QuizLearnParagraphSection";
 import Button from "@mui/material/Button/Button";
+import { User } from "../../api/User";
+import { useQuizStore } from "../../api/QuizAPI";
 
 // ВОПРОС: Оставить тут или вынести? Если выносить, то в utils, например?
 function countPoints(data: any) {
@@ -48,12 +50,15 @@ export default function Quiz() {
   const [amountOfPoints, setAmpontOfPoints] = useState<number>(0);
   const [results, setResults] = useState();
 
+  const { addNewQuiz } = useQuizStore();
+  const user = User;
+
   const {
     control,
     handleSubmit,
     setValue,
-    formState: { errors },
     reset,
+    formState: { errors },
   } = useForm();
 
   const onSubmit = (data: any) => {
@@ -62,6 +67,7 @@ export default function Quiz() {
     setFormSent(true);
     setResults(data);
     console.log(data);
+    addNewQuiz(user.currentUser(), data);
   };
 
   if (formSent) {

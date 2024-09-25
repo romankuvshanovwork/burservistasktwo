@@ -6,12 +6,7 @@ import StepLabel from "@mui/material/StepLabel";
 import { QUIZ_DATA } from "../../../constants/quizData";
 import { red, green } from "@mui/material/colors";
 import styled from "@mui/material/styles/styled";
-
-enum Correctness {
-  Correct = "Правильно",
-  SemiCorrect = "Частично правильно",
-  NotCorrect = "Неправильно",
-}
+import { Correctness } from "../../../enums/Correctness";
 
 const SquareStepIcon = styled("div")<{ correct: boolean }>(({ correct }) => ({
   width: 30,
