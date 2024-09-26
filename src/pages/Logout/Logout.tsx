@@ -1,19 +1,18 @@
-import * as React from "react";
-import { User } from "../../api/User";
+import { useUserStore } from "../../api/User";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 export default function Logout() {
-  const user = User;
   const navigate = useNavigate();
+  const { isLogedIn, logout } = useUserStore();
 
-  user.logout();
-  
   useEffect(() => {
-    if (!user.isLogedIn()) {
+    logout();
+
+    if (!isLogedIn()) {
       navigate("/sigin");
     }
-  }, [navigate, user]);
+  }, [isLogedIn, logout, navigate]);
 
-  return <></>;
+  return null;
 }

@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
-import { User } from "../../api/User";
+import { useUserStore } from "../../api/User";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { StyledCard } from "../../components/Styled/StyledCard/StyledCard";
@@ -20,6 +20,7 @@ export default function SignUp() {
   IAPIRequestResult | undefined
 >();
   const navigate = useNavigate();
+  const { isLogedIn, register } = useUserStore();
 
   const {
     control,
@@ -27,14 +28,12 @@ export default function SignUp() {
     formState: { errors },
   } = useForm();
 
-  const user = User;
-
   useEffect(() => {
-    if (user.isLogedIn()) navigate("/personal");
-  }, [navigate, user]);
+    if (isLogedIn()) navigate("/personal");
+  }, [isLogedIn, navigate]);
 
   const onSubmit = (data: any) => {
-    const result = user.register(
+    const result = register(
       data?.phone,
       data?.password,
       data?.fio,

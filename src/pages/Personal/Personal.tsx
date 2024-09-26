@@ -1,4 +1,4 @@
-import { User } from "../../api/User";
+import { useUserStore } from "../../api/User";
 import Blog from "../../components/Blog/Blog";
 import Container from "@mui/material/Container/Container";
 import { useNavigate } from "react-router-dom";
@@ -11,11 +11,11 @@ import Quiz from "../../components/Quiz/Quiz";
 
 export default function Personal() {
   const navigate = useNavigate();
-  const user = User;
+  const { isLogedIn, currentUser } = useUserStore();
 
   useEffect(() => {
-    if (!user.isLogedIn()) navigate("/signin");
-  }, [navigate, user]);
+    if (!isLogedIn()) navigate("/signin");
+  }, [isLogedIn, navigate]);
 
   return (
     <Container
@@ -33,7 +33,7 @@ export default function Personal() {
       <Grid container spacing={2} sx={{ alignItems: "center" }}>
         <Grid size="grow">
           <Typography sx={{ wordBreak: "break-all" }} variant="h3" gutterBottom>
-            Привет, {user.currentUser()?.fio}
+            Привет, {currentUser?.fio}
           </Typography>
         </Grid>
         <Grid size={1}>

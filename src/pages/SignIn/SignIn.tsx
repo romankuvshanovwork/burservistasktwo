@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
-import { User } from "../../api/User";
+import { useUserStore } from "../../api/User";
 import { useQuestionnaireStore } from "../../api/QuestionnaireAPI";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -34,14 +34,12 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignIn() {
-  const [amountOfRegisteredUsers, setAmountOfRegisteredUsers] = useState<
-    number | undefined
-  >();
   const [signInResult, setSignInResult] = useState<
     IAPIRequestResult | undefined
   >();
 
   const navigate = useNavigate();
+  const { login, isLogedIn, amountOfRegisteredUsers } = useUserStore();
 
   const {
     control,
@@ -49,20 +47,14 @@ export default function SignIn() {
     formState: { errors },
   } = useForm();
 
-  const user = User;
   const { amountOfQuestionnaires } = useQuestionnaireStore();
 
   useEffect(() => {
-    if (user.isLogedIn()) navigate("/personal");
-  }, [navigate, user]);
-
-  useEffect(
-    () => setAmountOfRegisteredUsers(user.amountOfRegisteredUsers()),
-    [user]
-  );
+    if (isLogedIn()) navigate("/personal");
+  }, [isLogedIn, navigate]);
 
   const onSubmit = (data: any) => {
-    const result = user.login(data?.phone, data?.password);
+    const result = login(data?.phone, data?.password);
     if (result.success === true) navigate("/personal");
     else setSignInResult(result);
   };
@@ -74,7 +66,7 @@ export default function SignIn() {
         <Box>
           <Typography variant="subtitle1">
             Количество зарегистрировавшихся пользователей:{" "}
-            {amountOfRegisteredUsers}
+            {amountOfRegisteredUsers()}
           </Typography>
           <Typography variant="subtitle1" gutterBottom>
             Количество анкет: {amountOfQuestionnaires()}

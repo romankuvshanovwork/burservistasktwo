@@ -40,12 +40,14 @@ export function QuizQuestionsAndParagraph({
           {QUIZ_DATA.questions.map((quiz_element) =>
             quiz_element.type === "radio" ? (
               <QuizRadioFormField
+              key={quiz_element.id}
                 control={control}
                 errors={errors}
                 quiz_element={quiz_element}
               />
             ) : (
               <QuizCheckboxesGroupFormField
+              key={quiz_element.id}
                 control={control}
                 errors={errors}
                 quiz_element={quiz_element}

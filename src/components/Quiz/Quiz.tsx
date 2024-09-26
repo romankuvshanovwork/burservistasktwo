@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { User } from "../../api/User";
+import { useUserStore } from "../../api/User";
 import { useQuizStore } from "../../api/QuizAPI";
 import { QuizResults } from "./QuizResults/QuizResults";
 import { QuizQuestionsAndParagraph } from "./QuizQuestionsAndParagraph/QuizQuestionsAndParagraph";
@@ -10,7 +10,7 @@ export default function Quiz() {
   const [userAnswers, setUserAnswers] = useState();
 
   const { addNewQuiz } = useQuizStore();
-  const user = User;
+  const { currentUser } = useUserStore();
 
   const {
     control,
@@ -23,7 +23,7 @@ export default function Quiz() {
   const onSubmit = (data: any) => {
     setFormSent(true);
     setUserAnswers(data);
-    addNewQuiz(user.currentUser(), data);
+    if (currentUser) addNewQuiz(currentUser, data);
   };
 
   function resetFormAndState() {
