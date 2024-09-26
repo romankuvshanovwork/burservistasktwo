@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import Button from "@mui/material/Button/Button";
 import Grid from "@mui/material/Grid2";
 import Quiz from "../../components/Quiz/Quiz";
+import Box from "@mui/material/Box/Box";
 
 export default function Personal() {
   const navigate = useNavigate();
@@ -30,18 +31,21 @@ export default function Personal() {
         backgroundColor: "#fcfcfc",
       }}
     >
-      <Grid container spacing={2} sx={{ alignItems: "center" }}>
-        <Grid size="grow">
-          <Typography sx={{ wordBreak: "break-all" }} variant="h3" gutterBottom>
-            Привет, {currentUser?.fio}
-          </Typography>
-        </Grid>
-        <Grid size={1}>
-          <Button onClick={() => navigate("/logout")} variant="contained">
-            Выйти
-          </Button>
-        </Grid>
-      </Grid>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        <Typography sx={{ wordBreak: "break-all" }} variant="h3" gutterBottom>
+          Привет, {currentUser?.fio}
+        </Typography>
+        <Button onClick={() => navigate("/logout")} variant="contained">
+          Выйти
+        </Button>
+      </Box>
       <Blog />
       <Questionnaire />
       <Quiz />

@@ -8,7 +8,8 @@ import { Correctness } from "../../../enums/Correctness";
 import { StyledSquareStepIcon } from "../../Styled/StyledSquareStepIcon/StyledSquareStepIcon";
 
 function transformAnswersToResults(data: any) {
-  const results: { correct: Correctness; points: number, maxPoints: number }[] = [];
+  const results: { correct: Correctness; points: number; maxPoints: number }[] =
+    [];
   Object.values(data).forEach((answer, index) => {
     const questionType = QUIZ_DATA.questions[index].type;
 
@@ -22,21 +23,30 @@ function transformAnswersToResults(data: any) {
         maxPoints: QUIZ_DATA.questions[index].points,
       };
     } else if (questionType === "checkbox" && Array.isArray(answer)) {
-        let points = answer
-          .filter((answerOption: any) => answerOption.state === true)
-          .map((answerOption: any) => answerOption.value)
-          .reduce((accumulator, answerOption) => {
-            if (QUIZ_DATA.questions[index].rightAnswer.includes(answerOption))
-              return accumulator + 1;
-            else return accumulator;
-          }, 0);
-          results[index] = {
-            correct: points === 0 ? Correctness.NotCorrect : points === QUIZ_DATA.questions[index].points ? Correctness.Correct : Correctness.SemiCorrect,
-            points: points,
-            maxPoints: QUIZ_DATA.questions[index].points,
-          };
-      } else {
-      results[index] = { correct: Correctness.NotCorrect, points: 0, maxPoints: QUIZ_DATA.questions[index].points, };
+      let points = answer
+        .filter((answerOption: any) => answerOption.state === true)
+        .map((answerOption: any) => answerOption.value)
+        .reduce((accumulator, answerOption) => {
+          if (QUIZ_DATA.questions[index].rightAnswer.includes(answerOption))
+            return accumulator + 1;
+          else return accumulator;
+        }, 0);
+      results[index] = {
+        correct:
+          points === 0
+            ? Correctness.NotCorrect
+            : points === QUIZ_DATA.questions[index].points
+            ? Correctness.Correct
+            : Correctness.SemiCorrect,
+        points: points,
+        maxPoints: QUIZ_DATA.questions[index].points,
+      };
+    } else {
+      results[index] = {
+        correct: Correctness.NotCorrect,
+        points: 0,
+        maxPoints: QUIZ_DATA.questions[index].points,
+      };
     }
   });
 
@@ -63,7 +73,9 @@ export default function QuizResultsStepper({
             <Step key={index}>
               <StepLabel
                 StepIconComponent={() => (
-                  <StyledSquareStepIcon correct={result.correct === Correctness.Correct}>
+                  <StyledSquareStepIcon
+                    correct={result.correct === Correctness.Correct}
+                  >
                     {index + 1}
                   </StyledSquareStepIcon>
                 )}
