@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useUserStore } from "../../api/User";
+import { useUserStore } from "../../api/UserAPI";
 import { useQuizStore } from "../../api/QuizAPI";
 import { QuizResults } from "./QuizResults/QuizResults";
 import { QuizQuestionsAndParagraph } from "./QuizQuestionsAndParagraph/QuizQuestionsAndParagraph";

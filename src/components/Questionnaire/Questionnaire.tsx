@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useUserStore } from "../../api/User";
+import { useUserStore } from "../../api/UserAPI";
 import { useQuestionnaireStore } from "../../api/QuestionnaireAPI";
 import { FormSuccessMessage } from "../FormComponents/FormSuccessMessage/FormSuccessMessage";
 import { BoysQuestionnaire } from "./BoysQuestionnaire/BoysQuestionnaire";

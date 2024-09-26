@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
-import { useUserStore } from "../../api/User";
+import { useUserStore } from "../../api/UserAPI";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { StyledCard } from "../../components/Styled/StyledCard/StyledCard";

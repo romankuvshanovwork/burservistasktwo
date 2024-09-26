@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
-import { useUserStore } from "../../api/User";
+import { useUserStore } from "../../api/UserAPI";
 import { useQuestionnaireStore } from "../../api/QuestionnaireAPI";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";

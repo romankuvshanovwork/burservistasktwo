@@ -1,4 +1,4 @@
-import { useUserStore } from "../../api/User";
+import { useUserStore } from "../../api/UserAPI";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 

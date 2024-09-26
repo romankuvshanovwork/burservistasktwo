@@ -1,4 +1,4 @@
-import { useUserStore } from "../../api/User";
+import { useUserStore } from "../../api/UserAPI";
 import Blog from "../../components/Blog/Blog";
 import Container from "@mui/material/Container/Container";
 import { useNavigate } from "react-router-dom";
