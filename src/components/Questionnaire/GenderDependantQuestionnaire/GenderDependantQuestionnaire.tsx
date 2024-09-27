@@ -65,6 +65,7 @@ export function GenderDependantQuestionnaire({
         </>
       );
     }
+    return null;
   }
 
   return (
