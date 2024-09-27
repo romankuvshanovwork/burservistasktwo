@@ -2,9 +2,8 @@ import { useForm } from "react-hook-form";
 import { useUserStore } from "../../api/UserAPI";
 import { useQuestionnaireStore } from "../../api/QuestionnaireAPI";
 import { FormSuccessMessage } from "../FormComponents/FormSuccessMessage/FormSuccessMessage";
-import { BoysQuestionnaire } from "./BoysQuestionnaire/BoysQuestionnaire";
-import { GirlsQuestionnaire } from "./GirlsQuestionnaire/GirlsQuestionnaire";
 import { useState } from "react";
+import { GenderDependantQuestionnaire } from "./GenderDependantQuestionnaire/GenderDependantQuestionnaire";
 
 export default function Questionnaire() {
   const [formSent, setFormSent] = useState(false);
@@ -30,26 +29,17 @@ export default function Questionnaire() {
   };
 
   if (formSent) return <FormSuccessMessage />;
-
-  if (userGender === "male")
+  else if (userGender) {
     return (
-      <BoysQuestionnaire
+      <GenderDependantQuestionnaire
         control={control}
         errors={errors}
         setValue={setValue}
         onSubmit={handleSubmit(onSubmit)}
+        gender={userGender}
       />
     );
+  }
 
-  if (userGender === "female")
-    return (
-      <GirlsQuestionnaire
-        control={control}
-        errors={errors}
-        setValue={setValue}
-        onSubmit={handleSubmit(onSubmit)}
-      />
-    );
-
-  return <></>;
+  return null;
 }

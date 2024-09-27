@@ -16,37 +16,69 @@ import { AgreementField } from "../../FormComponents/FormFields/AgreementField/A
 import { FormSubmitButton } from "../../FormComponents/FormSubmitButton/FormSubmitButton";
 import { FormEventHandler } from "react";
 import Box from "@mui/material/Box/Box";
+import { FavoriteActressField } from "../../FormComponents/FormFields/FavoriteActressField/FavoriteActressField";
+import { FavoriteSchoolSubjectField } from "../../FormComponents/FormFields/FavoriteSchoolSubjectField/FavoriteSchoolSubjectField";
+import { LearningOptionsField } from "../../FormComponents/FormFields/LearningOptionsField/LearningOptionsField";
+import {
+  QUESTIONNAIRE_AGREEMENT_SIGN,
+  QUESTIONNAIRE_TITLE,
+} from "../../../constants/genderDependantQuestionnaireSigns";
 
-export function BoysQuestionnaire({
+export function GenderDependantQuestionnaire({
   control,
   errors,
   setValue,
   onSubmit,
+  gender,
 }: {
   control: Control;
   errors: FieldErrors;
   setValue: UseFormSetValue<FieldValues>;
   onSubmit: FormEventHandler;
+  gender: "male" | "female";
 }) {
+  const genderSpecificFields = () => {
+    if (gender === "male") {
+      return (
+        <>
+          <FavoriteActorField control={control} errors={errors} />
+          <FavoriteColorField control={control} errors={errors} />
+          <FavoriteSportField
+            control={control}
+            errors={errors}
+            setValue={setValue}
+          />
+          <FreeTimeActivitiesField control={control} setValue={setValue} />
+        </>
+      );
+    } else if (gender === "female") {
+      return (
+        <>
+          <FavoriteActressField control={control} errors={errors} />
+          <FavoriteColorField control={control} errors={errors} />
+          <FavoriteSchoolSubjectField
+            control={control}
+            errors={errors}
+            setValue={setValue}
+          />
+          <LearningOptionsField control={control} setValue={setValue} />
+        </>
+      );
+    }
+  }
+
   return (
     <Box sx={{ maxWidth: "500px", marginTop: "50px", marginX: "auto" }}>
-      <Typography variant="h4">Анкета для мальчиков</Typography>
+      <Typography variant="h4">{QUESTIONNAIRE_TITLE[gender]}</Typography>
       <form onSubmit={onSubmit}>
         <FirstNameField control={control} errors={errors} />
         <LastNameField control={control} errors={errors} />
-        <FavoriteActorField control={control} errors={errors} />
-        <FavoriteColorField control={control} errors={errors} />
-        <FavoriteSportField
-          control={control}
-          errors={errors}
-          setValue={setValue}
-        />
-        <FreeTimeActivitiesField control={control} setValue={setValue} />
+        {genderSpecificFields()}
         <SignField control={control} errors={errors} setValue={setValue} />
         <AgreementField
           control={control}
           errors={errors}
-          label="Я согласен с обработкой моих персональных данных"
+          label={QUESTIONNAIRE_AGREEMENT_SIGN[gender]}
         />
         <FormSubmitButton label="Отправить анкету" />
       </form>
